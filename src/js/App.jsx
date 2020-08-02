@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import {
 	NavbarBrand,
@@ -10,9 +10,9 @@ import {
 	DropdownItem
 } from 'reactstrap';
 
-import '../scss/app.scss'
-import HomePage from './pages/HomePage'
-import Login from './pages/Login'
+import HomePage from './pages/HomePage';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 
 
@@ -30,7 +30,7 @@ const App = () => {
 		<Dropdown isOpen={dropdownOpen} toggle={toggle}>
 			<DropdownToggle caret>
 				Dropdown
-		  </DropdownToggle>
+			</DropdownToggle>
 			<DropdownMenu right>
 				<DropdownItem header>Examples</DropdownItem>
 				<DropdownItem href='/'>Home</DropdownItem>
@@ -41,6 +41,7 @@ const App = () => {
 		<Switch>
 			<Route path='/' exact component={HomePage} />
 			<Route path='/login' component={Login} />
+			<Route path='/register' component={Register} />
 		</Switch>
 		</div>
 	);

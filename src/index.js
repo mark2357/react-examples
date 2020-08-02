@@ -5,7 +5,7 @@ import App from './js/App.jsx';
 /* import BrowserRouter from 'react-router-dom' */
 import { BrowserRouter } from "react-router-dom";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './scss/main.scss'
 
 //load font awesome icons
 import { library } from '@fortawesome/fontawesome-svg-core';

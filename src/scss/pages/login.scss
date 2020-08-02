@@ -1,8 +1,42 @@
-.login-example {
+.login {
     .card-links-wrapper {
         display: flex;
     }
     .password-visible-button {
         width: 3em;
+    }
+
+    .login-card {
+        border: none;
+        .login-tabs {
+            border-bottom-width: 0;
+            li {
+                background-color: $darkest;
+                color: #fff;
+                border: none;
+                .active {
+                    background-color: $dark;
+                    color: #fff;
+                    border: none;
+                    cursor: auto;
+                    &:hover {
+                        box-shadow: none;
+                    }
+                }
+                a {
+                    border: none;
+                    background-color: $darker;
+                    cursor: pointer;
+                    &:hover {
+                        box-shadow: 0 0 0 1px var(--primary) inset;
+                    }
+                }
+            }
+        }
+        .card-body {
+            border: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 }

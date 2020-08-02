@@ -1,0 +1,23 @@
+
+
+// colors used within the app
+// background-color: #A5B9CC;
+// background-color: #727F8C;
+// background-color: #343A40;
+// background-color: #3E454D;
+// background-color: #292E33;
+
+
+// this is darks default
+$dark: #343a40;
+$darker: #3E454D;
+$darkest: #292E33;
+
+
+@import './app.scss';
+@import './pages/login.scss';
+
+
+
+// import bootstrap
+@import "bootstrap";

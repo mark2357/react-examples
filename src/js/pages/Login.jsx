@@ -14,11 +14,13 @@ import {
     CardText,
     InputGroup,
     InputGroupAddon,
+    Nav,
+    NavItem,
+    NavLink
 } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import '../../scss/pages/login.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Login = () => {
 
@@ -27,13 +29,13 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [loginActiveTab, setLoginActiveTab] = useState(true);
 
 
-    
     const handleLoginCLick = () => {
         console.log('handleLoginCLick');
     };
-    
+
     /**
      * @description
      * handles validating the email input on value change
@@ -48,7 +50,7 @@ const Login = () => {
         let atIndex = email.indexOf('@');
 
         if (atIndex <= 0 || atIndex == email.length - 1) valid = false;
-    
+
         console.log(atIndex);
 
         setEmailValid(valid);
@@ -75,8 +77,16 @@ const Login = () => {
         setShowPassword(!showPassword);
     }
 
+    const handleLoginTabSelect = () => {
+        setLoginActiveTab(true);
+    }
+
+    const handleRegisterTabSelect = () => {
+        setLoginActiveTab(false);
+    }
+
     return (
-        <div className='login-example mt-5'>
+        <div className='login mt-5'>
             <Row>
                 <Col
                     xs={{ size: 10, offset: 1 }}
@@ -84,49 +94,67 @@ const Login = () => {
                     md={{ size: 6, offset: 3 }}
                     lg={{ size: 4, offset: 4 }}
                 >
-                    <Card color='dark' body inverse>
-                        <CardTitle>Login</CardTitle>
-                        <Form>
-                            <FormGroup>
-                                <Label for="email">Email</Label>
-                                <Input
-                                    valid={emailValid}
-                                    invalid={!emailValid}
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="email"
-                                    onChange={validateEmail}
-                                    value={email}
-                                    />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="password">Password</Label>
-                                
-                                <InputGroup>
+                    <Card className='login-card' color='dark' inverse>
+                        <Nav tabs justified className='login-tabs justify-content-center'>
+                            <NavItem>
+                                <NavLink
+                                    className={loginActiveTab ? 'active' : ''}
+                                    onClick={handleLoginTabSelect}
+                                >
+                                    Login
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    className={loginActiveTab ? '' : 'active'}
+                                    onClick={handleRegisterTabSelect}
+                                >
+                                    Register
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                        <Card className='card-body' body color='dark' inverse>
+                            <Form>
+                                <FormGroup>
+                                    <Label for="email">Email</Label>
                                     <Input
-                                    valid={passwordValid}
-                                    invalid={!passwordValid}
-                                    type={showPassword ? 'text' : 'password'}
-                                    name="password"
-                                    id="password"
-                                    placeholder="password"
-                                    onChange={validatePassword}
-                                    value={password}    
+                                        valid={emailValid}
+                                        invalid={!emailValid}
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        placeholder="email"
+                                        onChange={validateEmail}
+                                        value={email}
                                     />
-                                    <InputGroupAddon addonType="append">
-                                        <Button className='password-visible-button' onClick={handlePasswordToggle}>
-                                            <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
-                                        </Button>
-                                    </InputGroupAddon>
-                                </InputGroup>
                                 </FormGroup>
-                            <Button onClick={handleLoginCLick} disabled={!emailValid || !passwordValid}>Login</Button>
-                        </Form>
-                        <CardText className='card-links-wrapper'>
+                                <FormGroup>
+                                    <Label for="password">Password</Label>
+                                    <InputGroup>
+                                        <Input
+                                            valid={passwordValid}
+                                            invalid={!passwordValid}
+                                            type={showPassword ? 'text' : 'password'}
+                                            name="password"
+                                            id="password"
+                                            placeholder="password"
+                                            onChange={validatePassword}
+                                            value={password}
+                                        />
+                                        <InputGroupAddon addonType="append">
+                                            <Button className='password-visible-button' onClick={handlePasswordToggle}>
+                                                <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
+                                            </Button>
+                                        </InputGroupAddon>
+                                    </InputGroup>
+                                </FormGroup>
+                                <Button onClick={handleLoginCLick} disabled={!emailValid || !passwordValid}>Login</Button>
+                            </Form>
+                            <CardText className='card-links-wrapper'>
                                 <a className='mr-auto' href='/'>Register</a>
                                 <a href='/'>Forgot Password ?</a>
-                        </CardText>
+                            </CardText>
+                        </Card>
                     </Card>
                 </Col>
             </Row>
