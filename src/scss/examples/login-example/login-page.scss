@@ -1,4 +1,4 @@
-.login {
+.login-page {
     .card-links-wrapper {
         display: flex;
     }
@@ -6,7 +6,7 @@
         width: 3em;
     }
 
-    .login-card {
+    .login-page-card {
         border: none;
         .login-tabs {
             border-bottom-width: 0;
@@ -33,7 +33,7 @@
                 }
             }
         }
-        .card-body {
+        .card-wrapper {
             border: none;
             border-top-left-radius: 0;
             border-top-right-radius: 0;

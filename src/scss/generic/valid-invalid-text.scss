@@ -1,0 +1,11 @@
+.valid-invalid-text {
+    &.valid {
+        color: var(--success)
+    }
+    &.invalid {
+        color: var(--danger)
+    }
+    .text-wrapper {
+        padding-left: 0.5em;
+    }
+}

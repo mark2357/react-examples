@@ -11,8 +11,7 @@ import {
 } from 'reactstrap';
 
 import HomePage from './pages/HomePage';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import LoginPage from './examples/login-example/LoginPage';
 
 
 
@@ -40,8 +39,7 @@ const App = () => {
 		</Navbar>
 		<Switch>
 			<Route path='/' exact component={HomePage} />
-			<Route path='/login' component={Login} />
-			<Route path='/register' component={Register} />
+			<Route path='/login' component={LoginPage} />
 		</Switch>
 		</div>
 	);

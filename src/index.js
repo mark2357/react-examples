@@ -26,6 +26,8 @@ import {
     // faCamera,
     // faSyncAlt,
     // faEllipsisH,
+    faCheckCircle,
+    faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     // faChevronLeft,
@@ -44,6 +46,8 @@ library.add(
     // faCamera,
     // faSyncAlt,
     // faEllipsisH,
+    faCheckCircle,
+    faTimesCircle,
 );
 
 
