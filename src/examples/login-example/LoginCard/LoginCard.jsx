@@ -24,8 +24,27 @@ const LoginCard = (props) => {
         setPassword,
     } = props;
 
-    const [emailValid, setEmailValid] = useState(false);
-    const [passwordValid, setPasswordValid] = useState(false);
+
+     /**
+     * @description
+     * checks weather email address is valid
+     * @param {string} email 
+     * @returns {boolean}
+     */
+    const checkEmailValid = (email) => {
+        let valid = true;
+        // email must be at least 3 characters
+        if (email.length < 3) valid = false;
+
+        let atIndex = email.indexOf('@');
+
+        if (atIndex <= 0 || atIndex == email.length - 1) valid = false;
+
+        return valid;
+    }
+
+    const [emailValid, setEmailValid] = useState(checkEmailValid(email));
+    const [passwordValid, setPasswordValid] = useState(password.length >= 1);
     const [showPassword, setShowPassword] = useState(false);
 
 
@@ -38,33 +57,23 @@ const LoginCard = (props) => {
      * handles validating the email input on value change
      * @param {Element} e 
      */
-    const validateEmail = (e) => {
+    const handleValidateEmail = (e) => {
         let email = e.target.value;
-        let valid = true;
-        // email must be at least 3 characters
-        if (email.length < 3) valid = false;
 
-        let atIndex = email.indexOf('@');
-
-        if (atIndex <= 0 || atIndex == email.length - 1) valid = false;
-
-        setEmailValid(valid);
+        setEmailValid(checkEmailValid(email));
         setEmail(email);
     };
 
     /**
      * @description
      * handles validating the password input on value change
-     * @param {Element} e 
+     * @param {Element} e
      */
-    const validatePassword = (e) => {
+    const handleValidatePassword = (e) => {
         let password = e.target.value;
-        let valid = true;
         // password must be at least 1 character
-        // all other password related requirements would be done at the register page
-        if (password.length < 1) valid = false;
-
-        setPasswordValid(valid);
+        // all other password related requirements would be done at the register page, so it would just show wrong password
+        setPasswordValid(password.length >= 1);
         setPassword(password);
     };
 
@@ -84,7 +93,7 @@ const LoginCard = (props) => {
                         name="email"
                         id="email"
                         placeholder="email"
-                        onChange={validateEmail}
+                        onChange={handleValidateEmail}
                         value={email}
                     />
                 </FormGroup>
@@ -98,7 +107,7 @@ const LoginCard = (props) => {
                             name="password"
                             id="password"
                             placeholder="password"
-                            onChange={validatePassword}
+                            onChange={handleValidatePassword}
                             value={password}
                         />
                         <InputGroupAddon addonType="append">
@@ -111,7 +120,7 @@ const LoginCard = (props) => {
                 <Button onClick={handleLoginClick} disabled={!emailValid || !passwordValid}>Login</Button>
             </Form>
             <CardText className='card-links-wrapper'>
-                <a href='/forgot-password'>Forgot Password ?</a>
+                <a href='/login-example/forgot-password'>Forgot Password ?</a>
             </CardText>
         </Card>
     )

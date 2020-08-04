@@ -11,7 +11,8 @@ import {
 } from 'reactstrap';
 
 import HomePage from '../HomePage/HomePage';
-import LoginPage from '../../../examples/login-example/LoginPage';
+import LoginPage from '../../../examples/login-example/LoginPage/LoginPage';
+import ForgotPasswordPage from '../../../examples/login-example/ForgotPasswordPage/ForgotPasswordPage';
 
 
 
@@ -24,23 +25,24 @@ const App = () => {
 
 	return (
 		<div className='app'>
-		<Navbar color='dark' dark>
-		<NavbarBrand href='/' >React Examples</NavbarBrand>
-		<Dropdown isOpen={dropdownOpen} toggle={toggle}>
-			<DropdownToggle caret>
-				Dropdown
-			</DropdownToggle>
-			<DropdownMenu right>
-				<DropdownItem header>Examples</DropdownItem>
-				<DropdownItem href='/'>Home</DropdownItem>
-				<DropdownItem href='/login'>Login Example</DropdownItem>
-			</DropdownMenu>
-		</Dropdown>
-		</Navbar>
-		<Switch>
-			<Route path='/' exact component={HomePage} />
-			<Route path='/login' component={LoginPage} />
-		</Switch>
+			<Navbar color='dark' dark>
+			<NavbarBrand href='/' >React Examples</NavbarBrand>
+			<Dropdown isOpen={dropdownOpen} toggle={toggle}>
+				<DropdownToggle caret>
+					Dropdown
+				</DropdownToggle>
+				<DropdownMenu right>
+					<DropdownItem header>Examples</DropdownItem>
+					<DropdownItem href='/'>Home</DropdownItem>
+					<DropdownItem href='/login-example'>Login Example</DropdownItem>
+				</DropdownMenu>
+			</Dropdown>
+			</Navbar>
+			<Switch>
+				<Route path='/' exact component={HomePage}/>
+				<Route path='/login-example' exact component={LoginPage}/>
+				<Route path='/login-example/forgot-password' component={ForgotPasswordPage}/>
+			</Switch>
 		</div>
 	);
 }

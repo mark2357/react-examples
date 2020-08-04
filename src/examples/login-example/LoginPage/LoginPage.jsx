@@ -9,8 +9,8 @@ import {
     NavLink
 } from 'reactstrap';
 
-import Register from './RegisterCard';
-import LoginCard from './LoginCard';
+import Register from '../RegisterCard/RegisterCard';
+import LoginCard from '../LoginCard/LoginCard';
 
 const LoginPage = () => {
 

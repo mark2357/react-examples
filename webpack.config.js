@@ -10,7 +10,8 @@ module.exports = {
 		// the output of the webpack build will be in /dist directory
 		path: path.resolve(__dirname, 'dist'),
 		// the filename of the JS bundle will be bundle.js
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		publicPath: '/'
 	},
 	module: {
 		rules: [
