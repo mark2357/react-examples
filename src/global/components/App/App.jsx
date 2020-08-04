@@ -10,8 +10,8 @@ import {
 	DropdownItem
 } from 'reactstrap';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './examples/login-example/LoginPage';
+import HomePage from '../HomePage/HomePage';
+import LoginPage from '../../../examples/login-example/LoginPage';
 
 
 

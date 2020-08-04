@@ -10,13 +10,11 @@ import {
     Button,
     InputGroup,
     InputGroupAddon,
-    FormFeedback,
-    FormText
 } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ValidInvalidText from '../../generic/ValidInvalidText';
+import ValidInvalidText from '../../global/components/ValidInvalidText/ValidInvalidText';
 
 const RegisterCard = (props) => {
 
@@ -39,7 +37,7 @@ const RegisterCard = (props) => {
 
     const checkPasswordNeedsSpecialCharacter = (password) => {
         // uses regex to determine if password contains various characters
-        let specialFormat = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        let specialFormat = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
         return !specialFormat.test(password);
     }
 
@@ -67,7 +65,7 @@ const RegisterCard = (props) => {
     const [passwordNeedCapital, setPasswordNeedCapital] = useState(checkPasswordNeedsCapital(password));
     const [passwordNeedLowerCase, setPasswordNeedLowerCase] = useState(checkPasswordNeedsLowercase(password));
     const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
-    const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(passwordNeedsNumber));
+    const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
     const [showPassword, setShowPassword] = useState(false);
 
 

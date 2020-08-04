@@ -14,12 +14,8 @@ $darker: #3E454D;
 $darkest: #292E33;
 
 
-@import './app.scss';
-@import './pages/home-page.scss';
-@import './examples/login-example/login-page.scss';
-@import './examples/login-example/login-card.scss';
-@import './examples/login-example/register-card.scss';
-@import './generic//valid-invalid-text.scss';
+@import './global/global-components.scss';
+@import './examples/examples.scss';
 
 
 

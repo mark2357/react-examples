@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './js/App.jsx';
+import App from './global/components/App/App';
 
 /* import BrowserRouter from 'react-router-dom' */
 import { BrowserRouter } from "react-router-dom";
 
-import './scss/main.scss'
+import './main.scss'
 
 //load font awesome icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -47,7 +47,7 @@ library.add(
     // faSyncAlt,
     // faEllipsisH,
     faCheckCircle,
-    faTimesCircle,
+    faTimesCircle
 );
 
 
