@@ -10,11 +10,17 @@ import {
     Button,
     InputGroup,
     InputGroupAddon,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
+import isUserAccount from '../helpers/isUserAccount';
+import saveNewUserAccount from '../helpers/saveNewUserAccount';
 
 const RegisterCard = (props) => {
 
@@ -111,6 +117,7 @@ const RegisterCard = (props) => {
     const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
     const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
     const [showPassword, setShowPassword] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
 
     //#region input and button handler functions
@@ -120,7 +127,15 @@ const RegisterCard = (props) => {
      * handles when the register button is clicked
      */
     const handleRegisterClick = () => {
-        console.log('handleLoginCLick');
+
+        if (isUserAccount(email) === false) {
+            // there is no already existing account for the user so one can be made
+            saveNewUserAccount(email, password);
+        }
+        else {
+            // there is already a user account for this email ask them if they want to reset there password
+            setShowModal(true);
+        }
     };
 
     /**
@@ -161,6 +176,14 @@ const RegisterCard = (props) => {
         setShowPassword(!showPassword);
     }
 
+    /**
+     * @description
+     * hides the modal
+     */
+    const handleHideModal = () => {
+        setShowModal(false);
+    }
+
     //#endregion
 
     /**
@@ -177,6 +200,28 @@ const RegisterCard = (props) => {
 
     return (
         <Card className='register-card' color='dark' body inverse>
+            <Modal
+                className='account-already-exists-modal'
+                isOpen={showModal}
+                toggle={handleHideModal}
+            >
+                <ModalHeader toggle={handleHideModal}>Password Reset</ModalHeader>
+                <ModalBody className='text-center'>
+                    <div className='mt-1'>
+                        An account already exists for this email
+                    </div>
+                    <div className='mb-1'>
+                        CLick below to login with these details
+                    </div>
+                    <Button>Login</Button>
+                    <div className='mb-1'>
+                        Reset Password
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={handleHideModal}>Close</Button>
+                </ModalFooter>
+            </Modal>
             <Form>
                 <FormGroup>
                     <Label for="email">Email</Label>

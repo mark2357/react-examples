@@ -11,9 +11,12 @@ import {
     CardText,
     InputGroup,
     InputGroupAddon,
+    Alert,
 } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
 
 const LoginCard = (props) => {
 
@@ -25,12 +28,12 @@ const LoginCard = (props) => {
     } = props;
 
 
-     /**
-     * @description
-     * checks weather email address is valid
-     * @param {string} email 
-     * @returns {boolean}
-     */
+    /**
+    * @description
+    * checks weather email address is valid
+    * @param {string} email 
+    * @returns {boolean}
+    */
     const checkEmailValid = (email) => {
         let valid = true;
         // email must be at least 3 characters
@@ -46,10 +49,18 @@ const LoginCard = (props) => {
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
     const [passwordValid, setPasswordValid] = useState(password.length >= 1);
     const [showPassword, setShowPassword] = useState(false);
+    const [showIncorrectEmailOrPasswordMsg, setShowIncorrectEmailOrPasswordMsg] = useState(false);
 
 
     const handleLoginClick = () => {
-        console.log('handleLoginClick');
+
+        if (validUserAccountAndPassword(email, password)) {
+            // user is logged in and is moved to logged in page
+            window.location.href = '/login-example/logged-in';
+        }
+        else {
+            setShowIncorrectEmailOrPasswordMsg(true);
+        }
     };
 
     /**
@@ -77,13 +88,29 @@ const LoginCard = (props) => {
         setPassword(password);
     };
 
+    /**
+     * @description
+     * handles the switching of the password between visible and hidden
+     */
     const handlePasswordToggle = () => {
         setShowPassword(!showPassword);
+    }
+
+    /**
+     * @description
+     * handles the dismissal of the wrong password or email alert
+     */
+    const handleAlertToggle = () => {
+        setShowIncorrectEmailOrPasswordMsg(false);
     }
 
     return (
         <Card className='login-card' body color='dark' inverse>
             <Form>
+                <Alert color="danger" isOpen={showIncorrectEmailOrPasswordMsg} toggle={handleAlertToggle}>
+                    <FontAwesomeIcon icon='exclamation' />
+                    <span className='incorrect-email-text'>Invalid Email or password</span>
+                </Alert>
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input

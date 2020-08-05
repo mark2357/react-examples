@@ -14,7 +14,7 @@ import {
     // faChevronRight,
     // faChevronUp,
     // faChevronDown,
-    // faTimes,
+    faTimes,
     // faPlus,
     // faMinus,
     // faEdit,
@@ -28,13 +28,14 @@ import {
     // faEllipsisH,
     faCheckCircle,
     faTimesCircle,
+    faExclamation
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     // faChevronLeft,
     // faChevronRight,
     // faChevronUp,
     // faChevronDown,
-    // faTimes,
+    faTimes,
     // faPlus,
     // faMinus,
     // faEdit,
@@ -47,7 +48,8 @@ library.add(
     // faSyncAlt,
     // faEllipsisH,
     faCheckCircle,
-    faTimesCircle
+    faTimesCircle,
+    faExclamation
 );
 
 

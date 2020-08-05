@@ -4,6 +4,8 @@ import {
     Card,
     Row,
     Col,
+    CardTitle,
+    NavLink,
 } from 'reactstrap';
 
 
@@ -24,8 +26,22 @@ const HomePage = () => {
                             <li>Bootstrap</li>
                             <li>Webpack</li>                    
                         </ul>
-                        <br />
-                        <div>As this webpage doesn&apos;t have any backend as it&apos;s only contains frontend examples some systems use workarounds to implement functionality e.g.the login system</div>
+                        <div>
+                            As this webpage doesn&apos;t have any backend
+                            as it&apos;s only contains frontend examples
+                            some systems use workarounds to implement
+                            functionality e.g.the login system
+                        </div>
+                    </Card>
+                    <Card body className ='homepage-card mt-5' inverse color='dark'>
+                        <CardTitle>
+                        <NavLink href='/login-example'>Login Example</NavLink>
+                        </CardTitle>
+                        <div>contains functionality for logging in, registering and resetting your password</div>
+                        <div>
+                            Please note that as this is a front end example this website stores registration data in local storage.
+                            This is a design patten I would <b>NOT</b> use in a real world solution.
+                        </div>
                     </Card>
                 </Col>
             </Row>

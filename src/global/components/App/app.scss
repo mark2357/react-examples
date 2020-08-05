@@ -1,4 +1,8 @@
 .app {
-    background-color: $darkest;
-    height: 100vh;
+    .background-div {
+        background-color: $darkest;
+        height: 100vh;
+        position: fixed;    
+        width: 100%;
+    }
 }
