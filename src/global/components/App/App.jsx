@@ -14,6 +14,7 @@ import HomePage from '../HomePage/HomePage';
 import LoginPage from '../../../examples/login-example/LoginPage/LoginPage';
 import ForgotPasswordPage from '../../../examples/login-example/ForgotPasswordPage/ForgotPasswordPage';
 import LoggedInPage from '../../../examples/login-example/LoggedInPage/LoggedInPage';
+import ExampleWebsiteWarningModal from '../ExampleWebsiteWarningModal/ExampleWebsiteWarningModal';
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
 
 	return (
 		<div className='app'>
+			<ExampleWebsiteWarningModal />
 			<div className='background-div'/>
 			<Navbar color='dark' dark>
 			<NavbarBrand href='/' >React Examples</NavbarBrand>
