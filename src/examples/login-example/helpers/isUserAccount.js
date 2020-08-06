@@ -4,7 +4,8 @@ import { retrieveFromLocalStorage } from '../../../global/helpers/localStorageHe
 
 /**
  * @description
- * @param { string } email the email that is being checked
+ * @param {string} email the email that is being checked
+ * @returns {boolean}
  * returns true when a user account exists for the given email 
  */
 const isUserAccount = (email) => {

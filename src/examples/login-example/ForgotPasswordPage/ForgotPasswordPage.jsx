@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import {useLocation} from "react-router-dom";
-
+import {Redirect, useLocation} from 'react-router-dom';
 import {
     Card,
     Row,
@@ -16,6 +15,7 @@ import {
     ModalFooter
 } from 'reactstrap';
 
+import getLoggedInUser from '../helpers/getLoggedInUser';
 
 const ForgotPasswordPage = () => {
 
@@ -66,6 +66,16 @@ const ForgotPasswordPage = () => {
 
     const handleBackToLogin = () => {
         window.location.href = '/login-example';
+    }
+
+
+
+    // redirects logged in user to logged in page
+    if(getLoggedInUser() !== null) {
+        return (
+            <Redirect
+            to='/login-example/logged-in'/>
+        )
     }
 
     return (

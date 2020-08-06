@@ -4,8 +4,7 @@ import { storeInLocalStorage, retrieveFromLocalStorage } from '../../../global/h
 
 /**
  * @description
- * @param { string } email the email that is being checked
- * returns true when a user account exists for the given email 
+ * @param {string} email the email that is being checked
  */
 const saveNewUserAccount = (email, password) => {
     //in a real world scenario this helper function would send a request to the server and wait for a response

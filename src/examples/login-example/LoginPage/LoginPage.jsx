@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Redirect } from 'react-router-dom';
 import {
     Card,
     Row,
@@ -11,6 +11,7 @@ import {
 
 import Register from '../RegisterCard/RegisterCard';
 import LoginCard from '../LoginCard/LoginCard';
+import getLoggedInUser from '../helpers/getLoggedInUser';
 
 const LoginPage = () => {
 
@@ -24,6 +25,14 @@ const LoginPage = () => {
 
     const handleRegisterTabSelect = () => {
         setLoginActiveTab(false);
+    }
+
+    // redirects logged in user to logged in page
+    if(getLoggedInUser() !== null) {
+        return (
+            <Redirect
+            to='/login-example/logged-in'/>
+        )
     }
 
     return (

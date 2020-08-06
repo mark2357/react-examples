@@ -1,15 +1,21 @@
 import React from 'react';
-
+import {Redirect} from 'react-router-dom';
 import {
     Card,
     Row,
     Col,
 } from 'reactstrap';
 
-
+import getLoggedInUser from '../helpers/getLoggedInUser';
 const LoggedInPage = () => {
 
-
+    // redirects non logged in user to log in page
+    if(getLoggedInUser() === null) {
+        return (
+            <Redirect
+            to='/login-example'/>
+        )
+    }
 
     return (
         <div className='logged-in-page mt-5'>

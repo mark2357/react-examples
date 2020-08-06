@@ -19,6 +19,7 @@ import {
 
 
 import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
+import setLoggedInUser from '../helpers/setLoggedInUser';
 
 const LoginCard = (props) => {
 
@@ -58,6 +59,7 @@ const LoginCard = (props) => {
 
         if (validUserAccountAndPassword(email, password)) {
             // user is logged in and is moved to logged in page
+            setLoggedInUser(email);
             window.location.href = '/login-example/logged-in';
         }
         else {
