@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
+import qs from 'query-string'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 import {
     Form,
@@ -14,7 +17,6 @@ import {
     Alert,
 } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
 
@@ -147,7 +149,11 @@ const LoginCard = (props) => {
                 <Button onClick={handleLoginClick} disabled={!emailValid || !passwordValid}>Login</Button>
             </Form>
             <CardText className='card-links-wrapper'>
-                <a href='/login-example/forgot-password'>Forgot Password ?</a>
+                <Link to={{
+                    'pathname': '/login-example/forgot-password',
+                    'search': qs.stringify({'email': email})
+                    }}
+                    >Forgot Password ?</Link>
             </CardText>
         </Card>
     )

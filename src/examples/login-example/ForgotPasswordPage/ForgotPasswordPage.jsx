@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useLocation} from "react-router-dom";
 
 import {
     Card,
@@ -17,6 +18,11 @@ import {
 
 
 const ForgotPasswordPage = () => {
+
+
+    // gets the initial email from the url params
+    const location = useLocation();
+    const initialEmail = new URLSearchParams(location.search).get('email') || '';
 
     /**
      * @description
@@ -37,19 +43,20 @@ const ForgotPasswordPage = () => {
     }
 
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(initialEmail);
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     // const showOverlay
 
     const handleHideModal = () => {
         setShowModal(false);
+        // clears email as email reset has already been sent
+        setEmail('');
     }
 
     const handleForgotPasswordClick = () => {
         setShowModal(true);
     }
-
 
     const handleEmailOnChange = (e) => {
         let email = e.target.value;
@@ -57,10 +64,14 @@ const ForgotPasswordPage = () => {
         setEmail(email);
     }
 
+    const handleBackToLogin = () => {
+        window.location.href = '/login-example';
+    }
+
     return (
         <div className='forgot-password-page mt-5'>
             <Modal
-                className='password-reset-modal'
+                className='custom-modal password-reset-modal'
                 isOpen={showModal}
                 toggle={handleHideModal}
             >
@@ -74,6 +85,7 @@ const ForgotPasswordPage = () => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
+                    <Button color="primary" onClick={handleBackToLogin}>Back To Login</Button>
                     <Button color="primary" onClick={handleHideModal}>Close</Button>
                 </ModalFooter>
             </Modal>

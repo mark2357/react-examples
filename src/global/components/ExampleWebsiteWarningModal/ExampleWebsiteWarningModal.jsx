@@ -14,7 +14,6 @@ import {storeInLocalStorage, retrieveFromLocalStorage} from '../../helpers/local
 const ExampleWebsiteWarningModal = () => {
 
     const getShownExampleSiteMessageFromLocalStorage = () => {
-        console.log(retrieveFromLocalStorage('shown-example-site-msg') || false);
         return retrieveFromLocalStorage('shown-example-site-msg') || false;
     }
 

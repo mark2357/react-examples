@@ -21,7 +21,7 @@ const LoggedInPage = () => {
                     lg={{ size: 4, offset: 4 }}
                 >
                     <Card className='forgotPassword-card' color='dark' inverse body>
-                        <span>successfully logged in</span>
+                        <span>you are now logged in</span>
                     </Card>
                 </Col>
             </Row>

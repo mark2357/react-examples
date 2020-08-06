@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 
+import qs from 'query-string'
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import {
     Form,
     FormGroup,
@@ -16,7 +20,6 @@ import {
     ModalFooter,
 } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import isUserAccount from '../helpers/isUserAccount';
@@ -131,6 +134,8 @@ const RegisterCard = (props) => {
         if (isUserAccount(email) === false) {
             // there is no already existing account for the user so one can be made
             saveNewUserAccount(email, password);
+            // user is logged in and is moved to logged in page
+            window.location.href = '/login-example/logged-in';
         }
         else {
             // there is already a user account for this email ask them if they want to reset there password
@@ -201,11 +206,11 @@ const RegisterCard = (props) => {
     return (
         <Card className='register-card' color='dark' body inverse>
             <Modal
-                className='account-already-exists-modal'
+                className='custom-modal account-already-exists-modal'
                 isOpen={showModal}
                 toggle={handleHideModal}
             >
-                <ModalHeader toggle={handleHideModal}>Password Reset</ModalHeader>
+                <ModalHeader>Account Already Exists</ModalHeader>
                 <ModalBody className='text-center'>
                     <div className='mt-1'>
                         An account already exists for this email
@@ -215,7 +220,12 @@ const RegisterCard = (props) => {
                     </div>
                     <Button>Login</Button>
                     <div className='mb-1'>
+                    <Link to={{
+                        'pathname': '/login-example/forgot-password',
+                        'search': qs.stringify({'email': email})
+                    }}>
                         Reset Password
+                    </Link>
                     </div>
                 </ModalBody>
                 <ModalFooter>

@@ -1,11 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
     Card,
     Row,
     Col,
     CardTitle,
-    NavLink,
 } from 'reactstrap';
 
 
@@ -35,7 +35,7 @@ const HomePage = () => {
                     </Card>
                     <Card body className ='homepage-card mt-5' inverse color='dark'>
                         <CardTitle>
-                        <NavLink href='/login-example'>Login Example</NavLink>
+                        <Link to='/login-example'>Login Example</Link>
                         </CardTitle>
                         <div>contains functionality for logging in, registering and resetting your password</div>
                         <div>
