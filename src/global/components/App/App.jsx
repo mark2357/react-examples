@@ -16,29 +16,36 @@ import ForgotPasswordPage from '../../../examples/login-example/ForgotPasswordPa
 import LoggedInPage from '../../../examples/login-example/LoggedInPage/LoggedInPage';
 import ExampleWebsiteWarningModal from '../ExampleWebsiteWarningModal/ExampleWebsiteWarningModal';
 
+import LoginNavbarContent from '../../../examples/login-example/LoginNavbarContent/LoginNavbarContent';
+
 const App = () => {
 
-	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [dropdownLeftOpen, setDropdownLeftOpen] = useState(false);
 
-	const toggle = () => setDropdownOpen(prevState => !prevState);
+	const toggleDropdownLeft = () => setDropdownLeftOpen(prevState => !prevState);
 
 	return (
 		<div className='app'>
 			<ExampleWebsiteWarningModal />
 			<div className='background-div'/>
 			<Navbar color='dark' dark>
-			<NavbarBrand href='/' >React Examples</NavbarBrand>
-			<Dropdown isOpen={dropdownOpen} toggle={toggle}>
+			<Dropdown isOpen={dropdownLeftOpen} toggle={toggleDropdownLeft}>
 				<DropdownToggle caret>
-					Dropdown
+					React Examples
 				</DropdownToggle>
-				<DropdownMenu right>
-					<DropdownItem header>Examples</DropdownItem>
+				<DropdownMenu>
 					<DropdownItem href='/'>Home</DropdownItem>
 					<DropdownItem href='/login-example'>Login Example</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
+
+			{/* switch for content within navbar */}
+			<Switch>
+				<Route path='/login-example' component={LoginNavbarContent}/>
+			</Switch>
 			</Navbar>
+
+			{/* switch for main page content */}
 			<Switch>
 				<Route path='/' exact component={HomePage}/>
 				<Route path='/login-example' exact component={LoginPage}/>

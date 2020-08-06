@@ -26,7 +26,6 @@ const LoginPage = () => {
     const handleRegisterTabSelect = () => {
         setLoginActiveTab(false);
     }
-
     // redirects logged in user to logged in page
     if(getLoggedInUser() !== null) {
         return (

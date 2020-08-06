@@ -28,7 +28,8 @@ import {
     // faEllipsisH,
     faCheckCircle,
     faTimesCircle,
-    faExclamation
+    faExclamation,
+    faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
     // faChevronLeft,
@@ -49,7 +50,8 @@ library.add(
     // faEllipsisH,
     faCheckCircle,
     faTimesCircle,
-    faExclamation
+    faExclamation,
+    faUserCircle
 );
 
 
