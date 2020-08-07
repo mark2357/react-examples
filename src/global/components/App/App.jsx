@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch } from "react-router-dom";
-
 import {
-	NavbarBrand,
 	Navbar,
 	Dropdown,
 	DropdownToggle,
@@ -15,7 +13,6 @@ import LoginPage from '../../../examples/login-example/LoginPage/LoginPage';
 import ForgotPasswordPage from '../../../examples/login-example/ForgotPasswordPage/ForgotPasswordPage';
 import LoggedInPage from '../../../examples/login-example/LoggedInPage/LoggedInPage';
 import ExampleWebsiteWarningModal from '../ExampleWebsiteWarningModal/ExampleWebsiteWarningModal';
-
 import LoginNavbarContent from '../../../examples/login-example/LoginNavbarContent/LoginNavbarContent';
 
 const App = () => {

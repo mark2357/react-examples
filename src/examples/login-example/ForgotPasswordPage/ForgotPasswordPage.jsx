@@ -17,8 +17,11 @@ import {
 
 import getLoggedInUser from '../helpers/getLoggedInUser';
 
+/**
+ * @description
+ * displays page that allows user to reset the password
+ */
 const ForgotPasswordPage = () => {
-
 
     // gets the initial email from the url params
     const location = useLocation();
@@ -42,32 +45,38 @@ const ForgotPasswordPage = () => {
         return valid;
     }
 
-
+    // defines state
     const [email, setEmail] = useState(initialEmail);
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
-    const [showModal, setShowModal] = useState(false);
-    // const showOverlay
+    const [showEmailSentModal, setShowEmailSentModal] = useState(false);
+
+
+    //#region input handler functions
 
     const handleHideModal = () => {
-        setShowModal(false);
+        setShowEmailSentModal(false);
         // clears email as email reset has already been sent
         setEmail('');
     }
 
     const handleForgotPasswordClick = () => {
-        setShowModal(true);
+        setShowEmailSentModal(true);
     }
 
+    /**
+     * @description
+     * handles when the value in the input box changes
+     * @param {Element} e 
+     */
     const handleEmailOnChange = (e) => {
         let email = e.target.value;
         setEmailValid(checkEmailValid(email))
         setEmail(email);
     }
 
-    const handleBackToLogin = () => {
+    const handleBackToLoginClick = () => {
         window.location.href = '/login-example';
     }
-
 
 
     // redirects logged in user to logged in page
@@ -78,11 +87,13 @@ const ForgotPasswordPage = () => {
         )
     }
 
+    //#endregion
+
     return (
         <div className='forgot-password-page mt-5'>
             <Modal
                 className='custom-modal password-reset-modal'
-                isOpen={showModal}
+                isOpen={showEmailSentModal}
                 toggle={handleHideModal}
             >
                 <ModalHeader toggle={handleHideModal}>Password Reset</ModalHeader>
@@ -95,7 +106,7 @@ const ForgotPasswordPage = () => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={handleBackToLogin}>Back To Login</Button>
+                    <Button color="primary" onClick={handleBackToLoginClick}>Back To Login</Button>
                     <Button color="primary" onClick={handleHideModal}>Close</Button>
                 </ModalFooter>
             </Modal>

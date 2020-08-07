@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
-
 import qs from 'query-string'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import {
     Form,
     FormGroup,
@@ -20,11 +18,16 @@ import {
     ModalFooter,
 } from 'reactstrap';
 
-
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import isUserAccount from '../helpers/isUserAccount';
 import saveNewUserAccount from '../helpers/saveNewUserAccount';
+import setLoggedInUser from '../helpers/setLoggedInUser';
 
+/**
+ * @description
+ * displays card body with email and password fields
+ * has restrictions on valid password
+ */
 const RegisterCard = (props) => {
 
     const {
@@ -32,6 +35,7 @@ const RegisterCard = (props) => {
         setEmail,
         password,
         setPassword,
+        switchToLoginTab,
     } = props;
 
 
@@ -120,26 +124,24 @@ const RegisterCard = (props) => {
     const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
     const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
     const [showPassword, setShowPassword] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showAccountAlreadyExistsModal, setShowAccountAlreadyExistsModal] = useState(false);
 
 
     //#region input and button handler functions
 
-    /**
-     * @description
-     * handles when the register button is clicked
-     */
     const handleRegisterClick = () => {
 
         if (isUserAccount(email) === false) {
             // there is no already existing account for the user so one can be made
             saveNewUserAccount(email, password);
+            // saves the logged in user
+            setLoggedInUser(email);
             // user is logged in and is moved to logged in page
             window.location.href = '/login-example/logged-in';
         }
         else {
             // there is already a user account for this email ask them if they want to reset there password
-            setShowModal(true);
+            setShowAccountAlreadyExistsModal(true);
         }
     };
 
@@ -181,12 +183,8 @@ const RegisterCard = (props) => {
         setShowPassword(!showPassword);
     }
 
-    /**
-     * @description
-     * hides the modal
-     */
-    const handleHideModal = () => {
-        setShowModal(false);
+    const handleHideAccountAlreadyExistsModal = () => {
+        setShowAccountAlreadyExistsModal(false);
     }
 
     //#endregion
@@ -194,6 +192,7 @@ const RegisterCard = (props) => {
     /**
      * @description
      * returns true when the password is valid or false if 1 or more requirements are not met
+     * @returns {boolean}
      */
     const passwordValid = () => {
         return !passwordToShort
@@ -207,8 +206,7 @@ const RegisterCard = (props) => {
         <Card className='register-card' color='dark' body inverse>
             <Modal
                 className='custom-modal account-already-exists-modal'
-                isOpen={showModal}
-                toggle={handleHideModal}
+                isOpen={showAccountAlreadyExistsModal}
             >
                 <ModalHeader>Account Already Exists</ModalHeader>
                 <ModalBody className='text-center'>
@@ -216,9 +214,9 @@ const RegisterCard = (props) => {
                         An account already exists for this email
                     </div>
                     <div className='mb-1'>
-                        CLick below to login with these details
+                        Click below to login with these details
                     </div>
-                    <Button>Login</Button>
+                    <Button color='primary' onClick={() => {switchToLoginTab();}}>Login</Button>
                     <div className='mb-1'>
                     <Link to={{
                         'pathname': '/login-example/forgot-password',
@@ -229,7 +227,7 @@ const RegisterCard = (props) => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={handleHideModal}>Close</Button>
+                    <Button color="primary" onClick={handleHideAccountAlreadyExistsModal}>Close</Button>
                 </ModalFooter>
             </Modal>
             <Form>
@@ -301,10 +299,11 @@ const RegisterCard = (props) => {
 }
 
 RegisterCard.propTypes = {
-    email: PropTypes.string,
-    setEmail: PropTypes.func,
-    password: PropTypes.string,
-    setPassword: PropTypes.func,
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    password: PropTypes.string.isRequired,
+    setPassword: PropTypes.func.isRequired,
+    switchToLoginTab: PropTypes.func.isRequired,
 };
 
 

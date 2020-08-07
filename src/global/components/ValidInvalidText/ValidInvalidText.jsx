@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
+/**
+ * @description
+ * displays text in green with a tick if valid or red with cross if invalid
+ */
 const ValidInvalidText = (props) => {
 
     const {

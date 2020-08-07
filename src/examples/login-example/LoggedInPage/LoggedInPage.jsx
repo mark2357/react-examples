@@ -4,14 +4,12 @@ import {
     Card,
     Row,
     Col,
-    Button,
-    CardFooter,
 } from 'reactstrap';
 
 import getLoggedInUser from '../helpers/getLoggedInUser';
-import setLoggedInUser from '../../../examples/login-example/helpers/setLoggedInUser';
 
 const LoggedInPage = () => {
+
 
     // redirects non logged in user to log in page
     if(getLoggedInUser() === null) {
@@ -19,11 +17,6 @@ const LoggedInPage = () => {
             <Redirect
             to='/login-example'/>
         )
-    }
-
-    const handleLogoutUser = () => {
-        setLoggedInUser(null);
-		window.location.href = '/login-example';
     }
 
     return (
@@ -36,14 +29,11 @@ const LoggedInPage = () => {
                     lg={{ size: 4, offset: 4 }}
                 >
                     <Card className='forgotPassword-card' color='dark' inverse body>
-                        <span>
-                            you are now logged in.
+                        <div>
+                            You are now logged in.
                             <br />
-                            Click the button below or the profile image in the top right to log out
-                        </span>
-                        <CardFooter>
-                            <Button onClick={handleLogoutUser} color='primary'>Log Out</Button>
-                        </CardFooter>
+                            Click profile image in the top right to log out or delete your account.
+                        </div>
                     </Card>
                 </Col>
             </Row>

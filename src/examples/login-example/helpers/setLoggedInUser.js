@@ -1,4 +1,5 @@
 import { storeInLocalStorage, removeFromLocalStorage } from '../../../global/helpers/localStorageHelpers';
+import LOCAL_STORAGE_KEYS from '../../../global/constants/localStorageKeys';
 
 /**
  * @description
@@ -8,12 +9,13 @@ import { storeInLocalStorage, removeFromLocalStorage } from '../../../global/hel
  */
 const setLoggedInUser = (email) => {
     //in a real world scenario this helper function would send a request to the server which would send back a token to store
+
     if(email === null) {
         //logging out user
-        removeFromLocalStorage('logged-in-user');
+        removeFromLocalStorage(LOCAL_STORAGE_KEYS.LOGGED_IN_USER);
     }
     else {
-        storeInLocalStorage('logged-in-user', email);
+        storeInLocalStorage(LOCAL_STORAGE_KEYS.LOGGED_IN_USER, email);
     }
 
 };

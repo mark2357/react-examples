@@ -1,6 +1,5 @@
-
-
 import { retrieveFromLocalStorage } from '../../../global/helpers/localStorageHelpers';
+import LOCAL_STORAGE_KEYS from '../../../global/constants/localStorageKeys';
 
 /**
  * @description
@@ -11,8 +10,7 @@ import { retrieveFromLocalStorage } from '../../../global/helpers/localStorageHe
 const isUserAccount = (email) => {
     //in a real world scenario this helper function would send a request to the server and wait for a response
 
-    // TODO: convert user-account-data to a constant
-    let userAccountsString = retrieveFromLocalStorage('user-account-data');
+    let userAccountsString = retrieveFromLocalStorage(LOCAL_STORAGE_KEYS.USER_ACCOUNT_DATA);
 
     // no accounts have been stored in local storage yet
     if(userAccountsString === null)

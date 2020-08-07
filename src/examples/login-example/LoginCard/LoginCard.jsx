@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import qs from 'query-string'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-
 import {
     Form,
     FormGroup,
@@ -17,10 +16,13 @@ import {
     Alert,
 } from 'reactstrap';
 
-
 import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
 import setLoggedInUser from '../helpers/setLoggedInUser';
 
+/**
+ * @description
+ * displays a card body that contains a login form with basic validation 
+ */
 const LoginCard = (props) => {
 
     const {
@@ -49,11 +51,13 @@ const LoginCard = (props) => {
         return valid;
     }
 
+    // defines state
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
     const [passwordValid, setPasswordValid] = useState(password.length >= 1);
     const [showPassword, setShowPassword] = useState(false);
     const [showIncorrectEmailOrPasswordMsg, setShowIncorrectEmailOrPasswordMsg] = useState(false);
 
+    //#region input handler functions
 
     const handleLoginClick = () => {
 
@@ -108,6 +112,8 @@ const LoginCard = (props) => {
         setShowIncorrectEmailOrPasswordMsg(false);
     }
 
+    //#endregion
+
     return (
         <Card className='login-card' body color='dark' inverse>
             <Form>
@@ -161,10 +167,10 @@ const LoginCard = (props) => {
     )
 }
 LoginCard.propTypes = {
-    email: PropTypes.string,
-    setEmail: PropTypes.func,
-    password: PropTypes.string,
-    setPassword: PropTypes.func,
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    password: PropTypes.string.isRequired,
+    setPassword: PropTypes.func.isRequired,
 };
 
 export default LoginCard;

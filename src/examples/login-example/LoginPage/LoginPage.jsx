@@ -19,13 +19,23 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    /**
+     * @description
+     * switches to displaying the login tab
+     */
     const handleLoginTabSelect = () => {
         setLoginActiveTab(true);
     }
 
+    /**
+     * @description
+     * switches to displaying the register tab
+     */
     const handleRegisterTabSelect = () => {
         setLoginActiveTab(false);
     }
+
+    
     // redirects logged in user to logged in page
     if(getLoggedInUser() !== null) {
         return (
@@ -77,6 +87,7 @@ const LoginPage = () => {
                                     setEmail = {setEmail}
                                     password = {password}
                                     setPassword = {setPassword}
+                                    switchToLoginTab = {() => {setLoginActiveTab(true)}}
                                 />
                             }
                         </Card>

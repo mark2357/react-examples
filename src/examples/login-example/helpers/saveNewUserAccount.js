@@ -1,6 +1,5 @@
-
-
 import { storeInLocalStorage, retrieveFromLocalStorage } from '../../../global/helpers/localStorageHelpers';
+import LOCAL_STORAGE_KEYS from '../../../global/constants/localStorageKeys';
 
 /**
  * @description
@@ -9,8 +8,7 @@ import { storeInLocalStorage, retrieveFromLocalStorage } from '../../../global/h
 const saveNewUserAccount = (email, password) => {
     //in a real world scenario this helper function would send a request to the server and wait for a response
 
-    // TODO: convert user-account-data to a constant
-    let userAccountsString = retrieveFromLocalStorage('user-account-data');
+    let userAccountsString = retrieveFromLocalStorage(LOCAL_STORAGE_KEYS.USER_ACCOUNT_DATA);
 
     let userAccounts = null;
     if(userAccountsString === null) {
@@ -24,7 +22,7 @@ const saveNewUserAccount = (email, password) => {
         email: email,
         password: password
     };
-    storeInLocalStorage('user-account-data', JSON.stringify(userAccounts));
+    storeInLocalStorage(LOCAL_STORAGE_KEYS.USER_ACCOUNT_DATA, JSON.stringify(userAccounts));
 };
 
 

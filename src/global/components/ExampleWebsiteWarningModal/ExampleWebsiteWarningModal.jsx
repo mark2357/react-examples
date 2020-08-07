@@ -11,8 +11,18 @@ import {
 
 import {storeInLocalStorage, retrieveFromLocalStorage} from '../../helpers/localStorageHelpers';
 
+/**
+ * @description
+ * used to let the user know that this website is an example / portfolio website
+ * this should only be displayed once
+ */
 const ExampleWebsiteWarningModal = () => {
 
+    /**
+     * @description
+     * determines if user has seen the modal before
+     * @returns {boolean}
+     */
     const getShownExampleSiteMessageFromLocalStorage = () => {
         return retrieveFromLocalStorage('shown-example-site-msg') || false;
     }
