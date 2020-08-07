@@ -145,6 +145,14 @@ const RegisterCard = (props) => {
         }
     };
 
+    const handleInputKeyPress = (e) => {
+        // char code for enter is 13
+        // only tries to register user if both email and password are valid
+        if(e.charCode === 13 && emailValid && passwordValid()) {
+            handleRegisterClick();
+        }
+    }
+
     /**
      * @description
      * handles validating the email input on value change
@@ -234,6 +242,7 @@ const RegisterCard = (props) => {
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
+                        tabIndex={1}
                         valid={emailValid}
                         invalid={!emailValid}
                         type="email"
@@ -242,12 +251,14 @@ const RegisterCard = (props) => {
                         placeholder="email"
                         onChange={handleValidateEmail}
                         value={email}
+                        onKeyPress={handleInputKeyPress}
                     />
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
                     <InputGroup>
                         <Input
+                            tabIndex={2}
                             valid={passwordValid()}
                             invalid={!passwordValid()}
                             type={showPassword ? 'text' : 'password'}
@@ -256,9 +267,10 @@ const RegisterCard = (props) => {
                             placeholder="password"
                             onChange={handleValidatePassword}
                             value={password}
+                            onKeyPress={handleInputKeyPress}
                         />
                         <InputGroupAddon addonType="append">
-                            <Button className='password-visible-button' onClick={handlePasswordToggle}>
+                            <Button tabIndex={4} className='password-visible-button' onClick={handlePasswordToggle}>
                                 <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
                             </Button>
                         </InputGroupAddon>
@@ -292,7 +304,7 @@ const RegisterCard = (props) => {
                         valid={!passwordNeedsNumber}
                     />
                 </FormGroup>
-                <Button onClick={handleRegisterClick} disabled={!emailValid || !passwordValid}>Create Account</Button>
+                <Button tabIndex={3} onClick={handleRegisterClick} disabled={(!emailValid) || (!passwordValid())}>Create Account</Button>
             </Form>
         </Card>
     )

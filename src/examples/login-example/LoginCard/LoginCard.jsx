@@ -71,6 +71,13 @@ const LoginCard = (props) => {
         }
     };
 
+    const handleInputKeyPress = (e) => {
+        // char code for enter pressed
+        if(e.charCode === 13) {
+            handleLoginClick();
+        }
+    }
+
     /**
      * @description
      * handles validating the email input on value change
@@ -124,6 +131,7 @@ const LoginCard = (props) => {
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
+                        tabIndex={1}
                         valid={emailValid}
                         invalid={!emailValid}
                         type="email"
@@ -132,12 +140,14 @@ const LoginCard = (props) => {
                         placeholder="email"
                         onChange={handleValidateEmail}
                         value={email}
+                        onKeyPress={handleInputKeyPress}
                     />
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
                     <InputGroup>
                         <Input
+                            tabIndex={2}
                             valid={passwordValid}
                             invalid={!passwordValid}
                             type={showPassword ? 'text' : 'password'}
@@ -146,18 +156,19 @@ const LoginCard = (props) => {
                             placeholder="password"
                             onChange={handleValidatePassword}
                             value={password}
+                            onKeyPress={handleInputKeyPress}
                         />
                         <InputGroupAddon addonType="append">
-                            <Button className='password-visible-button' onClick={handlePasswordToggle}>
+                            <Button tabIndex={5} className='password-visible-button' onClick={handlePasswordToggle}>
                                 <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
                 </FormGroup>
-                <Button onClick={handleLoginClick} disabled={!emailValid || !passwordValid}>Login</Button>
+                <Button tabIndex={3} onClick={handleLoginClick} disabled={!emailValid || !passwordValid}>Login</Button>
             </Form>
             <CardText className='card-links-wrapper'>
-                <Link to={{
+                <Link tabIndex={4} to={{
                     'pathname': '/login-example/forgot-password',
                     'search': qs.stringify({'email': email})
                     }}
