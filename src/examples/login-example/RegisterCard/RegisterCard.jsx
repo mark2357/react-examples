@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import qs from 'query-string'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import zxcvbn from 'zxcvbn';
 import {
     Form,
     FormGroup,
@@ -16,8 +17,8 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Progress,
 } from 'reactstrap';
-
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import isUserAccount from '../helpers/isUserAccount';
 import saveNewUserAccount from '../helpers/saveNewUserAccount';
@@ -36,10 +37,28 @@ const RegisterCard = (props) => {
         password,
         setPassword,
         switchToLoginTab,
+        userPasswordStrengthMeter,
     } = props;
 
 
     // #region input validation check functions
+
+    /**
+     * @description
+     * determines the password strength using the zxcvbn library
+     * @param { string } email
+     * @param { string } password
+     * @returns {{ score: number, warning: string, suggestions: [string] }}
+     */
+    const checkPasswordStrength = (email, password) => {
+        let passwordData = zxcvbn(password, [email])
+        let passwordStrengthData = {
+            score: passwordData.score,
+            warning: passwordData.feedback.warning,
+            suggestions: passwordData.feedback.suggestions,
+        }
+        return passwordStrengthData;
+    }
 
     /**
      * @description
@@ -48,7 +67,7 @@ const RegisterCard = (props) => {
      * @returns {boolean}
      */
     const checkPasswordToShort = (password) => {
-        
+
         let minLength = 8;
 
         if (password.length < minLength) return true;
@@ -117,15 +136,20 @@ const RegisterCard = (props) => {
 
     //#endregion
 
+    // used when both userPasswordStrengthMeter is true and false
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
+    const [showPassword, setShowPassword] = useState(false);
+    const [showAccountAlreadyExistsModal, setShowAccountAlreadyExistsModal] = useState(false);
+
+    // used when both userPasswordStrengthMeter is false
     const [passwordToShort, setPasswordToShort] = useState(checkPasswordToShort(password));
     const [passwordNeedCapital, setPasswordNeedCapital] = useState(checkPasswordNeedsCapital(password));
     const [passwordNeedLowerCase, setPasswordNeedLowerCase] = useState(checkPasswordNeedsLowercase(password));
     const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
     const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
-    const [showPassword, setShowPassword] = useState(false);
-    const [showAccountAlreadyExistsModal, setShowAccountAlreadyExistsModal] = useState(false);
 
+    // used when both userPasswordStrengthMeter is true
+    const [passwordStrengthData, setPasswordStrengthData] = useState(checkPasswordStrength(email, password));
 
     //#region input and button handler functions
 
@@ -148,7 +172,7 @@ const RegisterCard = (props) => {
     const handleInputKeyPress = (e) => {
         // char code for enter is 13
         // only tries to register user if both email and password are valid
-        if(e.charCode === 13 && emailValid && passwordValid()) {
+        if (e.charCode === 13 && emailValid && passwordValid()) {
             handleRegisterClick();
         }
     }
@@ -173,12 +197,17 @@ const RegisterCard = (props) => {
     const handleValidatePassword = (e) => {
         let password = e.target.value;
 
-        setPasswordToShort(checkPasswordToShort(password));
-        setPasswordNeedsSpecialCharacter(checkPasswordNeedsSpecialCharacter(password))
-        setPasswordNeedCapital(checkPasswordNeedsCapital(password))
-        setPasswordNeedLowerCase(checkPasswordNeedsLowercase(password))
-        setPasswordNeedsNumber(checkPasswordNeedsNumber(password))
-
+        if (userPasswordStrengthMeter) {
+            setPasswordStrengthData(checkPasswordStrength(email, password));
+        }
+        else {
+            setPasswordToShort(checkPasswordToShort(password));
+            setPasswordNeedsSpecialCharacter(checkPasswordNeedsSpecialCharacter(password))
+            setPasswordNeedCapital(checkPasswordNeedsCapital(password))
+            setPasswordNeedLowerCase(checkPasswordNeedsLowercase(password))
+            setPasswordNeedsNumber(checkPasswordNeedsNumber(password))
+        }
+           
         setPassword(password);
     };
 
@@ -199,15 +228,40 @@ const RegisterCard = (props) => {
 
     /**
      * @description
-     * returns true when the password is valid or false if 1 or more requirements are not met
+     * returns true when the password is valid
      * @returns {boolean}
      */
     const passwordValid = () => {
-        return !passwordToShort
-        && !passwordNeedCapital
-        && !passwordNeedLowerCase
-        && !passwordNeedsSpecialCharacter
-        && !passwordNeedsNumber;
+        if(userPasswordStrengthMeter) {
+            return passwordStrengthData.score > 2;
+        }
+        else {
+            return !passwordToShort
+                && !passwordNeedCapital
+                && !passwordNeedLowerCase
+                && !passwordNeedsSpecialCharacter
+                && !passwordNeedsNumber;
+        }
+    }
+
+    /**
+     * @description
+     * returns the color the password strength meter should be
+     * @returns {string}
+     */
+    const getPasswordStrengthColor = () => {
+        switch (passwordStrengthData.score) {
+            case 0:
+            case 1:
+                return 'danger';
+            case 2:
+                return 'warning';
+            case 3:
+            case 4:
+                return 'success';
+            default:
+                return 'danger';
+        }
     }
 
     return (
@@ -224,13 +278,13 @@ const RegisterCard = (props) => {
                     <div className='mb-1'>
                         Click below to login with these details
                     </div>
-                    <Button color='primary' onClick={() => {switchToLoginTab();}}>Login</Button>
+                    <Button color='primary' onClick={() => { switchToLoginTab(); }}>Login</Button>
                     <div className='mb-1'>
-                    <Link to={{
-                        'pathname': '/login-example/forgot-password',
-                        'search': qs.stringify({'email': email})
-                    }}>
-                        Reset Password
+                        <Link to={{
+                            'pathname': '/login-example/forgot-password',
+                            'search': qs.stringify({ 'email': email })
+                        }}>
+                            Reset Password
                     </Link>
                     </div>
                 </ModalBody>
@@ -275,35 +329,65 @@ const RegisterCard = (props) => {
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
-                    <div>
-                        <span className='small-text'>Password Must Contain:</span>
-                    </div>
-                    <ValidInvalidText
-                        className='small-text'
-                        text='at least 8 characters'
-                        valid={!passwordToShort}
-                    />
-                    <ValidInvalidText
-                        className='small-text'
-                        text='a capital letter'
-                        valid={!passwordNeedCapital}
-                    />
-                    <ValidInvalidText
-                        className='small-text'
-                        text='a lowercase letter'
-                        valid={!passwordNeedLowerCase}
-                    />
-                    <ValidInvalidText
-                        className='small-text'
-                        text='a special character'
-                        valid={!passwordNeedsSpecialCharacter}
-                    />
-                    <ValidInvalidText
-                        className='small-text'
-                        text='a number'
-                        valid={!passwordNeedsNumber}
-                    />
+                    { !userPasswordStrengthMeter &&
+                    <>
+                        <div>
+                            <span className='small-text'>Password Must Contain:</span>
+                        </div>
+                        <ValidInvalidText
+                            className='small-text'
+                            text='at least 8 characters'
+                            valid={!passwordToShort}
+                        />
+                        <ValidInvalidText
+                            className='small-text'
+                            text='a capital letter'
+                            valid={!passwordNeedCapital}
+                        />
+                        <ValidInvalidText
+                            className='small-text'
+                            text='a lowercase letter'
+                            valid={!passwordNeedLowerCase}
+                        />
+                        <ValidInvalidText
+                            className='small-text'
+                            text='a special character'
+                            valid={!passwordNeedsSpecialCharacter}
+                        />
+                        <ValidInvalidText
+                            className='small-text'
+                            text='a number'
+                            valid={!passwordNeedsNumber}
+                        />
+                    </>
+                    }
                 </FormGroup>
+                { userPasswordStrengthMeter &&
+                    <>
+                    <div className='small-text mb-2'>
+                        Password Strength:
+                    </div>
+                    <Progress multi>
+                        <Progress bar color={getPasswordStrengthColor()} value={(passwordStrengthData.score + 1) * 20} />
+                    </Progress>
+                    <div className='small-text mb-2 mt-2'>
+                        {/* displays each warning string in the array */}
+                        { passwordStrengthData.warning !== '' &&
+                            <>
+                                <span>
+                                {passwordStrengthData.warning}
+                                </span>
+                                <br />
+                            </>
+                        }
+                        {
+                            passwordStrengthData.suggestions.map(suggestion => (
+                                <><span>{suggestion}</span><br/></>
+                            ))
+                        }
+                    </div>
+                    </>
+                }
                 <Button tabIndex={3} onClick={handleRegisterClick} disabled={(!emailValid) || (!passwordValid())}>Create Account</Button>
             </Form>
         </Card>
@@ -316,6 +400,14 @@ RegisterCard.propTypes = {
     password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
     switchToLoginTab: PropTypes.func.isRequired,
+
+    // weather the password field should use a password strength meter to determine if password is valid or 
+    // if character requirements should be used e.g. at least 10 characters and one number
+    userPasswordStrengthMeter: PropTypes.bool.isRequired,
+};
+
+RegisterCard.defaultProps = {
+    userPasswordStrengthMeter: false
 };
 
 

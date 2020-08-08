@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-
 import {
     Modal,
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Button
+    Button,
 } from 'reactstrap';
 
-
+import LOCAL_STORAGE_KEYS from '../../constants/localStorageKeys';
 import {storeInLocalStorage, retrieveFromLocalStorage} from '../../helpers/localStorageHelpers';
 
 /**
@@ -24,7 +23,7 @@ const ExampleWebsiteWarningModal = () => {
      * @returns {boolean}
      */
     const getShownExampleSiteMessageFromLocalStorage = () => {
-        return retrieveFromLocalStorage('shown-example-site-msg') || false;
+        return retrieveFromLocalStorage(LOCAL_STORAGE_KEYS.SHOWN_EXAMPLE_SITE_MSG) || false;
     }
 
     // only shows the modal once
@@ -32,7 +31,7 @@ const ExampleWebsiteWarningModal = () => {
     
 
     const setShownExampleSiteMessageFromLocalStorage = () => {
-        storeInLocalStorage('shown-example-site-msg', true);
+        storeInLocalStorage(LOCAL_STORAGE_KEYS.SHOWN_EXAMPLE_SITE_MSG, true);
     }
 
     const handleHideModal = () => {

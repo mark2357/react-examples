@@ -7,7 +7,7 @@ import localStorageKeys from '../constants/localStorageKeys';
  * @param {string} value 
  */
 const storeInLocalStorage = (key, value) => {
-    if(!(key in localStorageKeys)) console.warn(`key: ${key} is not in in local storage keys constant`);
+    if(!Object.values(localStorageKeys).includes(key)) console.warn(`key: ${key} is not in local storage keys constant`);
     localStorage.setItem(key, value);
 }
 
@@ -18,7 +18,7 @@ const storeInLocalStorage = (key, value) => {
  * @param {string} value 
  */
 const retrieveFromLocalStorage = (key) => {
-    if(!(key in localStorageKeys)) console.warn(`key: ${key} is not in in local storage keys constant`);
+    if(!Object.values(localStorageKeys).includes(key)) console.warn(`key: ${key} is not in local storage keys constant`);
     return localStorage.getItem(key);
 }
 
@@ -27,7 +27,7 @@ const retrieveFromLocalStorage = (key) => {
  * @param {*} key 
  */
 const removeFromLocalStorage = (key) => {
-    if(!(key in localStorageKeys)) console.warn(`key: ${key} is not in in local storage keys constant`);
+    if(!Object.values(localStorageKeys).includes(key)) console.warn(`key: ${key} is not in local storage keys constant`);
     localStorage.removeItem(key);
 }
 

@@ -20,7 +20,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "reactstrap": "^8.5.1",
-    "sass": "^1.26.10"
+    "sass": "^1.26.10",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

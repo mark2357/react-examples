@@ -88,6 +88,7 @@ const LoginPage = () => {
                                     password = {password}
                                     setPassword = {setPassword}
                                     switchToLoginTab = {() => {setLoginActiveTab(true)}}
+                                    userPasswordStrengthMeter={true}
                                 />
                             }
                         </Card>
