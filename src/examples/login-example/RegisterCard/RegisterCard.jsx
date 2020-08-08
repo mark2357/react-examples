@@ -382,7 +382,9 @@ const RegisterCard = (props) => {
                         }
                         {
                             passwordStrengthData.suggestions.map(suggestion => (
-                                <><span>{suggestion}</span><br/></>
+                            <div key={suggestion}>
+                                {suggestion}
+                            </div>
                             ))
                         }
                     </div>
