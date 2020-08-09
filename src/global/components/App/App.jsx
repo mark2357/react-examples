@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import {
 	Navbar,
 	Dropdown,
@@ -20,6 +20,7 @@ const App = () => {
 	const [dropdownLeftOpen, setDropdownLeftOpen] = useState(false);
 
 	const toggleDropdownLeft = () => setDropdownLeftOpen(prevState => !prevState);
+	const history = useHistory();
 
 	return (
 		<div className='app'>
@@ -31,8 +32,12 @@ const App = () => {
 					React Examples
 				</DropdownToggle>
 				<DropdownMenu>
-					<DropdownItem href='/'>Home</DropdownItem>
-					<DropdownItem href='/login-example'>Login Example</DropdownItem>
+					<DropdownItem onClick={() => {history.push('/'); }}>
+							Home
+					</DropdownItem>
+					<DropdownItem onClick={() => {history.push('/login-example'); }}>
+						Login Example
+					</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
 

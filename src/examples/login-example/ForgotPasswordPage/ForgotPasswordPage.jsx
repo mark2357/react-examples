@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Redirect, useLocation} from 'react-router-dom';
+import {Redirect, useLocation, useHistory} from 'react-router-dom';
 import {
     Card,
     Row,
@@ -26,6 +26,7 @@ const ForgotPasswordPage = () => {
     // gets the initial email from the url params
     const location = useLocation();
     const initialEmail = new URLSearchParams(location.search).get('email') || '';
+    const history = useHistory();
 
     /**
      * @description
@@ -75,7 +76,7 @@ const ForgotPasswordPage = () => {
     }
 
     const handleBackToLoginClick = () => {
-        window.location.href = '/login-example';
+        history.push('/login-example');
     }
 
 

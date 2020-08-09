@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import qs from 'query-string'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import zxcvbn from 'zxcvbn';
 import {
@@ -40,6 +40,8 @@ const RegisterCard = (props) => {
         userPasswordStrengthMeter,
     } = props;
 
+
+    const history = useHistory();
 
     // #region input validation check functions
 
@@ -161,7 +163,7 @@ const RegisterCard = (props) => {
             // saves the logged in user
             setLoggedInUser(email);
             // user is logged in and is moved to logged in page
-            window.location.href = '/login-example/logged-in';
+            history.push('/login-example/logged-in');
         }
         else {
             // there is already a user account for this email ask them if they want to reset there password

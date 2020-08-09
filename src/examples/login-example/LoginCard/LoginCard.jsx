@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import qs from 'query-string'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
     Form,
     FormGroup,
@@ -51,6 +51,8 @@ const LoginCard = (props) => {
         return valid;
     }
 
+    const history = useHistory();
+
     // defines state
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
     const [passwordValid, setPasswordValid] = useState(password.length >= 1);
@@ -64,7 +66,7 @@ const LoginCard = (props) => {
         if (validUserAccountAndPassword(email, password)) {
             // user is logged in and is moved to logged in page
             setLoggedInUser(email);
-            window.location.href = '/login-example/logged-in';
+            history.push('/login-example/logged-in');
         }
         else {
             setShowIncorrectEmailOrPasswordMsg(true);

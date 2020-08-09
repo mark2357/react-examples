@@ -56,7 +56,9 @@ library.add(
 
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter
+        basename={process.env.BASENAME}
+    >
         <App/>
     </BrowserRouter>,
     document.getElementById('root'));

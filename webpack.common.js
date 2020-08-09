@@ -2,8 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	// the output bundle won't be optimized for production but suitable for development
-	mode: 'development',
 	// the app entry point is /src/index.js
 	entry: path.resolve(__dirname, 'src', 'index.js'),
 	output: {
@@ -11,7 +9,6 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		// the filename of the JS bundle will be bundle.js
 		filename: 'bundle.js',
-		publicPath: '/'
 	},
 	module: {
 		rules: [

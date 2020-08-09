@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import {
 	Dropdown,
 	DropdownToggle,
@@ -26,19 +27,21 @@ const LoginNavbarContent = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showConfirmDeleteUserAccountModal, setShowConfirmDeleteUserAccountModal] = useState(false);
 
+    const history = useHistory();
+
 	const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
 
     const loggedInUser = getLoggedInUser();
 
     const handleLogoutClick = () => {
 		setLoggedInUser(null);
-		window.location.href = '/login-example';
+		history.push('/login-example');
 	}
     
     const handleDeleteUserAccount = () => {
         setLoggedInUser(null);
         deleteUserAccount(loggedInUser);
-		window.location.href = '/login-example';
+		history.push('/login-example');
     }
 
 
