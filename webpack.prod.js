@@ -6,7 +6,7 @@ const env = require('dotenv').config({path: './.env.production'});
 module.exports = merge(common, {
     mode: 'production',
     output: {
-        publicPath: env.BASENAME
+		publicPath: env.parsed.BASENAME,
     },
     plugins: [
         new Dotenv({

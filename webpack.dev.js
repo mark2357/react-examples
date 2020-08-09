@@ -10,8 +10,8 @@ module.exports = merge(common, {
     },
     devtool: 'inline-source-map',
     output: {
-		publicPath: env.BASENAME
-    },
+		publicPath: env.parsed.BASENAME,
+  },
     plugins: [
         new Dotenv({
             path: './.env.development',
