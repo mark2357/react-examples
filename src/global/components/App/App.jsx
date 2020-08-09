@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 import {
 	Navbar,
 	Dropdown,
@@ -50,7 +50,13 @@ const App = () => {
 			{/* switch for main page content */}
 			<Switch>
 				<Route path='/' exact component={HomePage}/>
-				<Route path='/login-example' exact component={LoginPage}/>
+				<Route path='/login-example' exact render={() => <Redirect to='/login-example/login'/>}/>
+				<Route path='/login-example/login' exact render={
+					() => <LoginPage loginActiveTab={true}/>
+				}/>
+				<Route path='/login-example/register' exact render={
+					() => <LoginPage loginActiveTab={false}/>
+				}/>
 				<Route path='/login-example/forgot-password' component={ForgotPasswordPage}/>
 				<Route path='/login-example/logged-in' component={LoggedInPage}/>
 			</Switch>

@@ -18,6 +18,7 @@ import {
     ModalBody,
     ModalFooter,
     Progress,
+    Tooltip
 } from 'reactstrap';
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import isUserAccount from '../helpers/isUserAccount';
@@ -36,7 +37,6 @@ const RegisterCard = (props) => {
         setEmail,
         password,
         setPassword,
-        switchToLoginTab,
         userPasswordStrengthMeter,
     } = props;
 
@@ -149,6 +149,8 @@ const RegisterCard = (props) => {
     const [passwordNeedLowerCase, setPasswordNeedLowerCase] = useState(checkPasswordNeedsLowercase(password));
     const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
     const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
+    const [capsLockOn, setCapsLockOn] = useState(false);
+    const [showWarnings, setShowWarnings] = useState(false);
 
     // used when both userPasswordStrengthMeter is true
     const [passwordStrengthData, setPasswordStrengthData] = useState(checkPasswordStrength(email, password));
@@ -156,6 +158,12 @@ const RegisterCard = (props) => {
     //#region input and button handler functions
 
     const handleRegisterClick = () => {
+
+
+        if(!emailValid || !passwordValid()) {
+            setShowWarnings(true);
+            return;
+        }
 
         if (isUserAccount(email) === false) {
             // there is no already existing account for the user so one can be made
@@ -226,6 +234,11 @@ const RegisterCard = (props) => {
         setShowAccountAlreadyExistsModal(false);
     }
 
+    const handleCapsLockCheck = (e) => {
+        let capsLock = e.getModifierState('CapsLock');
+        setCapsLockOn(capsLock);
+    }
+
     //#endregion
 
     /**
@@ -255,9 +268,8 @@ const RegisterCard = (props) => {
         switch (passwordStrengthData.score) {
             case 0:
             case 1:
+                case 2:
                 return 'danger';
-            case 2:
-                return 'warning';
             case 3:
             case 4:
                 return 'success';
@@ -280,7 +292,7 @@ const RegisterCard = (props) => {
                     <div className='mb-1'>
                         Click below to login with these details
                     </div>
-                    <Button color='primary' onClick={() => { switchToLoginTab(); }}>Login</Button>
+                    <Button color='primary' onClick={() => { history.push('/login-example/login') }}>Login</Button>
                     <div className='mb-1'>
                         <Link to={{
                             'pathname': '/login-example/forgot-password',
@@ -298,6 +310,7 @@ const RegisterCard = (props) => {
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
+                        autoFocus
                         tabIndex={1}
                         valid={emailValid}
                         invalid={!emailValid}
@@ -309,6 +322,13 @@ const RegisterCard = (props) => {
                         value={email}
                         onKeyPress={handleInputKeyPress}
                     />
+                { showWarnings &&
+                    <ValidInvalidText
+                    className='small-text'
+                    text='Email Must Contain a @'
+                    valid={emailValid}
+                    />
+                }
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
@@ -324,13 +344,32 @@ const RegisterCard = (props) => {
                             onChange={handleValidatePassword}
                             value={password}
                             onKeyPress={handleInputKeyPress}
+                            onKeyDown={handleCapsLockCheck}
+                            onBlur={() => {setCapsLockOn(false); }}
                         />
+                        <Tooltip
+                            className='register-card-warning-popover'
+                            placement="left"
+                            isOpen={capsLockOn}
+                            target='password'
+                            fade={false}
+                        >
+                            WARNING Caps Lock is on
+                        </Tooltip>
+                        
                         <InputGroupAddon addonType="append">
                             <Button tabIndex={4} className='password-visible-button' onClick={handlePasswordToggle}>
                                 <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
+                    { showWarnings &&
+                        <ValidInvalidText
+                        className='small-text'
+                        text='Password strength meter must be green'
+                        valid={passwordValid()}
+                        />
+                    }
                     { !userPasswordStrengthMeter &&
                     <>
                         <div>
@@ -392,7 +431,7 @@ const RegisterCard = (props) => {
                     </div>
                     </>
                 }
-                <Button tabIndex={3} onClick={handleRegisterClick} disabled={(!emailValid) || (!passwordValid())}>Create Account</Button>
+                <Button tabIndex={3} onClick={handleRegisterClick} >Create Account</Button>
             </Form>
         </Card>
     )
@@ -403,7 +442,6 @@ RegisterCard.propTypes = {
     setEmail: PropTypes.func.isRequired,
     password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
-    switchToLoginTab: PropTypes.func.isRequired,
 
     // weather the password field should use a password strength meter to determine if password is valid or 
     // if character requirements should be used e.g. at least 10 characters and one number

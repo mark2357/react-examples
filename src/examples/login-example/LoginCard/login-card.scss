@@ -3,4 +3,15 @@
     .incorrect-email-text {
         padding-left: 1em;
     }
+    .small-text {
+        font-size: 0.8em;
+    }
+}
+.login-card-warning-popover {
+    .tooltip-inner {
+        background-color: var(--danger);
+    }
+    .arrow::before {
+        border-left-color: var(--danger) !important;
+    }
 }

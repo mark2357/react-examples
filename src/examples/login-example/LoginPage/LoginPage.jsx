@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { Redirect, useHistory } from 'react-router-dom';
 import {
     Card,
     Row,
@@ -13,9 +14,15 @@ import Register from '../RegisterCard/RegisterCard';
 import LoginCard from '../LoginCard/LoginCard';
 import getLoggedInUser from '../helpers/getLoggedInUser';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
 
-    const [loginActiveTab, setLoginActiveTab] = useState(true);
+    const {
+        loginActiveTab
+    } = props;
+
+    const history = useHistory();
+
+    // const [loginActiveTab, setLoginActiveTab] = useState(loginInitialTab);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -24,7 +31,8 @@ const LoginPage = () => {
      * switches to displaying the login tab
      */
     const handleLoginTabSelect = () => {
-        setLoginActiveTab(true);
+        // setLoginActiveTab(true);
+        history.push('/login-example/login');
     }
 
     /**
@@ -32,7 +40,8 @@ const LoginPage = () => {
      * switches to displaying the register tab
      */
     const handleRegisterTabSelect = () => {
-        setLoginActiveTab(false);
+        // setLoginActiveTab(false);
+        history.push('/login-example/register');
     }
 
     
@@ -87,7 +96,6 @@ const LoginPage = () => {
                                     setEmail = {setEmail}
                                     password = {password}
                                     setPassword = {setPassword}
-                                    switchToLoginTab = {() => {setLoginActiveTab(true)}}
                                     userPasswordStrengthMeter={true}
                                 />
                             }
@@ -97,6 +105,13 @@ const LoginPage = () => {
             </Row>
         </div>
     )
+}
+LoginPage.propTypes = {
+    loginActiveTab : PropTypes.bool,
+}
+
+LoginPage.defaultProps = {
+    loginActiveTab : true,
 }
 
 export default LoginPage;

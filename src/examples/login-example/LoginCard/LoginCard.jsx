@@ -14,11 +14,12 @@ import {
     InputGroup,
     InputGroupAddon,
     Alert,
+    Tooltip
 } from 'reactstrap';
 
 import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
 import setLoggedInUser from '../helpers/setLoggedInUser';
-
+import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 /**
  * @description
  * displays a card body that contains a login form with basic validation 
@@ -58,10 +59,17 @@ const LoginCard = (props) => {
     const [passwordValid, setPasswordValid] = useState(password.length >= 1);
     const [showPassword, setShowPassword] = useState(false);
     const [showIncorrectEmailOrPasswordMsg, setShowIncorrectEmailOrPasswordMsg] = useState(false);
+    const [capsLockOn, setCapsLockOn] = useState(false);
+    const [showWarnings, setShowWarnings] = useState(false);
 
     //#region input handler functions
 
     const handleLoginClick = () => {
+
+        if(!emailValid || !passwordValid) {
+            setShowWarnings(true);
+            return;
+        }
 
         if (validUserAccountAndPassword(email, password)) {
             // user is logged in and is moved to logged in page
@@ -74,9 +82,10 @@ const LoginCard = (props) => {
     };
 
     const handleInputKeyPress = (e) => {
+        console.log('handleInputKeyPress');
         // char code for enter pressed
         if(e.charCode === 13) {
-            handleLoginClick();
+            handleLoginClick();            
         }
     }
 
@@ -121,6 +130,12 @@ const LoginCard = (props) => {
         setShowIncorrectEmailOrPasswordMsg(false);
     }
 
+    const handleCapsLockCheck = (e) => {
+        let capsLock = e.getModifierState('CapsLock');
+        setCapsLockOn(capsLock);
+    }
+
+
     //#endregion
 
     return (
@@ -133,6 +148,7 @@ const LoginCard = (props) => {
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
+                        autoFocus
                         tabIndex={1}
                         valid={emailValid}
                         invalid={!emailValid}
@@ -144,6 +160,13 @@ const LoginCard = (props) => {
                         value={email}
                         onKeyPress={handleInputKeyPress}
                     />
+                    { showWarnings &&
+                        <ValidInvalidText
+                            className='small-text'
+                            text='Email Must Contain a @'
+                            valid={emailValid}
+                        />
+                    }
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
@@ -159,15 +182,33 @@ const LoginCard = (props) => {
                             onChange={handleValidatePassword}
                             value={password}
                             onKeyPress={handleInputKeyPress}
+                            onKeyDown={handleCapsLockCheck}
+                            onBlur={() => {setCapsLockOn(false); }}
                         />
+                        <Tooltip
+                            className='login-card-warning-popover'
+                            placement="left"
+                            isOpen={capsLockOn}
+                            target='password'
+                            fade={false}
+                        >
+                            WARNING Caps Lock is on
+                        </Tooltip>
                         <InputGroupAddon addonType="append">
                             <Button tabIndex={5} className='password-visible-button' onClick={handlePasswordToggle}>
                                 <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
+                    { showWarnings &&
+                        <ValidInvalidText
+                            className='small-text'
+                            text='Password cannot be empty'
+                            valid={passwordValid}
+                        />
+                    }
                 </FormGroup>
-                <Button tabIndex={3} onClick={handleLoginClick} disabled={!emailValid || !passwordValid}>Login</Button>
+                <Button tabIndex={3} onClick={handleLoginClick}>Login</Button>
             </Form>
             <CardText className='card-links-wrapper'>
                 <Link tabIndex={4} to={{

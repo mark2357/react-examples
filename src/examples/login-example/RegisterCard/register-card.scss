@@ -5,3 +5,11 @@
         font-size: 80%;
     }
 }
+.register-card-warning-popover {
+    .tooltip-inner {
+        background-color: var(--danger);
+    }
+    .arrow::before {
+        border-left-color: var(--danger) !important;
+    }
+}
