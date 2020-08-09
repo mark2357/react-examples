@@ -1,8 +1,10 @@
-#React Examples
-is a portfolio example site containing various react examples
+# React Examples
+This project is a portfolio example site containing various react examples
 
- The current list of examples are 
+ The current list of examples are:
  - login examples
+
+A live version of the website can be found here: https://mark2357.github.io/react-examples-site/
 
 
 ### Development setup
