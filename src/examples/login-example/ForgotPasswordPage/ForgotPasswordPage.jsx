@@ -100,10 +100,10 @@ const ForgotPasswordPage = () => {
                 <ModalHeader toggle={handleHideModal}>Password Reset</ModalHeader>
                 <ModalBody className='text-center'>
                     <div className='mt-1'>
-                        An email will be sent to your inbox
+                        An email will be sent to your inbox. If an account exists for &quot;{email}&quot;
                     </div>
                     <div className='mb-1'>
-                        (if an account exists for &quot;{email}&quot;)
+                        (As this is a frontend only example no actual email will be sent)
                     </div>
                 </ModalBody>
                 <ModalFooter>

@@ -15,7 +15,8 @@
                 color: #fff;
                 border: none;
                 .active {
-                    background-color: $dark;
+                    // background-color: $dark;
+                    background-color: var(--primary);
                     color: #fff;
                     border: none;
                     cursor: auto;
@@ -25,6 +26,7 @@
                 }
                 a {
                     border: none;
+                    // background-color: var(--secondary);
                     background-color: $darker;
                     cursor: pointer;
                     &:hover {
