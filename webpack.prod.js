@@ -13,11 +13,13 @@ module.exports = merge(common, {
         new Dotenv({
             path: './.env.production',
         }),
-        new HtmlWebpackPlugin(),
-        
+        new HtmlWebpackPlugin({
+            template: 'src/index.html'
+        }),
         // Also generate a 404.html this is needed when github pages is used as a hosting platform
         new HtmlWebpackPlugin({ 
             filename: '404.html',
+            template: 'src/index.html'
         })
     ]
 });
