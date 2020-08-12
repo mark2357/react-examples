@@ -21,9 +21,9 @@ import {
     Tooltip
 } from 'reactstrap';
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
-import isUserAccount from '../helpers/isUserAccount';
-import saveNewUserAccount from '../helpers/saveNewUserAccount';
-import setLoggedInUser from '../helpers/setLoggedInUser';
+import isUserAccount from '../helpers/userAccountHelpers/isUserAccount';
+import saveUserAccount from '../helpers/userAccountHelpers/saveUserAccount';
+import setLoggedInUser from '../helpers/userAccountHelpers/setLoggedInUser';
 
 /**
  * @description
@@ -167,7 +167,7 @@ const RegisterCard = (props) => {
 
         if (isUserAccount(email) === false) {
             // there is no already existing account for the user so one can be made
-            saveNewUserAccount(email, password);
+            saveUserAccount(email, password, false);
             // saves the logged in user
             setLoggedInUser(email);
             // user is logged in and is moved to logged in page

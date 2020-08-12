@@ -17,8 +17,8 @@ import {
     Tooltip
 } from 'reactstrap';
 
-import validUserAccountAndPassword from '../helpers/validUserAccountAndPassword';
-import setLoggedInUser from '../helpers/setLoggedInUser';
+import validUserAccountAndPassword from '../helpers/userAccountHelpers/validUserAccountAndPassword';
+import setLoggedInUser from '../helpers/userAccountHelpers/setLoggedInUser';
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 /**
  * @description

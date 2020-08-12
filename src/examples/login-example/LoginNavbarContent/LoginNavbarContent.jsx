@@ -13,9 +13,9 @@ import {
 } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import getLoggedInUser from '../../../examples/login-example/helpers/getLoggedInUser';
-import setLoggedInUser from '../../../examples/login-example/helpers/setLoggedInUser';
-import deleteUserAccount from '../helpers/deleteUserAccount';
+import getLoggedInUser from '../../../examples/login-example/helpers/userAccountHelpers/getLoggedInUser';
+import setLoggedInUser from '../../../examples/login-example/helpers/userAccountHelpers/setLoggedInUser';
+import deleteUserAccount from '../helpers/userAccountHelpers/deleteUserAccount';
 
 
 /**
@@ -33,15 +33,29 @@ const LoginNavbarContent = () => {
 
     const loggedInUser = getLoggedInUser();
 
+
     const handleLogoutClick = () => {
 		setLoggedInUser(null);
 		history.push('/login-example');
 	}
+
     
+    /**
+     * @description
+     * logs out user deletes there account and redirects them to the login page
+     */
     const handleDeleteUserAccount = () => {
         setLoggedInUser(null);
         deleteUserAccount(loggedInUser);
-		history.push('/login-example');
+		history.push('/login-example/login');
+    }
+
+    /**
+     * @description
+     * redirects the user to the change password page
+     */
+    const handleChangePasswordClick = () => {
+		history.push('/login-example/change-password');
     }
 
 
@@ -73,6 +87,7 @@ const LoginNavbarContent = () => {
                 <DropdownMenu right>
                     <DropdownItem header>{loggedInUser}</DropdownItem>
                     <DropdownItem onClick={handleLogoutClick}>Logout</DropdownItem>
+                    <DropdownItem onClick={handleChangePasswordClick}>Change Password</DropdownItem>
                     <DropdownItem onClick={() => {setShowConfirmDeleteUserAccountModal(true); }}>Delete User Account</DropdownItem>
                 </DropdownMenu>
             </Dropdown>

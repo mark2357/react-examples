@@ -6,7 +6,7 @@ import {
     Col,
 } from 'reactstrap';
 
-import getLoggedInUser from '../helpers/getLoggedInUser';
+import getLoggedInUser from '../helpers/userAccountHelpers/getLoggedInUser';
 
 const LoggedInPage = () => {
 

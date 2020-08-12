@@ -15,7 +15,7 @@ import {
     ModalFooter
 } from 'reactstrap';
 
-import getLoggedInUser from '../helpers/getLoggedInUser';
+import getLoggedInUser from '../helpers/userAccountHelpers/getLoggedInUser';
 
 /**
  * @description

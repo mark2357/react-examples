@@ -1,5 +1,5 @@
-import { storeInLocalStorage, retrieveFromLocalStorage } from '../../../global/helpers/localStorageHelpers';
-import LOCAL_STORAGE_KEYS from '../../../global/constants/localStorageKeys';
+import { storeInLocalStorage, retrieveFromLocalStorage } from '../../../../global/helpers/localStorageHelpers';
+import LOCAL_STORAGE_KEYS from '../../../../global/constants/localStorageKeys';
 
 /**
  * @description

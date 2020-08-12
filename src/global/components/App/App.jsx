@@ -14,6 +14,7 @@ import ForgotPasswordPage from '../../../examples/login-example/ForgotPasswordPa
 import LoggedInPage from '../../../examples/login-example/LoggedInPage/LoggedInPage';
 import ExampleWebsiteWarningModal from '../ExampleWebsiteWarningModal/ExampleWebsiteWarningModal';
 import LoginNavbarContent from '../../../examples/login-example/LoginNavbarContent/LoginNavbarContent';
+import ChangePasswordPage from '../../../examples/login-example/ChangePasswordPage/ChangePasswordPage';
 
 const App = () => {
 
@@ -59,6 +60,7 @@ const App = () => {
 				}/>
 				<Route path='/login-example/forgot-password' component={ForgotPasswordPage}/>
 				<Route path='/login-example/logged-in' component={LoggedInPage}/>
+				<Route path='/login-example/change-password' exact component={ChangePasswordPage}/>
 			</Switch>
 		</div>
 	);

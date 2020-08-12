@@ -12,7 +12,7 @@ import {
 
 import Register from '../RegisterCard/RegisterCard';
 import LoginCard from '../LoginCard/LoginCard';
-import getLoggedInUser from '../helpers/getLoggedInUser';
+import getLoggedInUser from '../helpers/userAccountHelpers/getLoggedInUser';
 
 const LoginPage = (props) => {
 
