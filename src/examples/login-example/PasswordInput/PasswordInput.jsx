@@ -74,24 +74,24 @@ const PasswordInput = (props) => {
      * @param {Element} e 
      */
     const handleValidatePassword = (e) => {
-        let password = e.target.value;
+        let newPassword = e.target.value;
 
+        let newPasswordStrengthData = null; 
         if (usePasswordStrengthMeter) {
-            setPasswordStrengthData(checkPasswordStrength(email, password));
+            newPasswordStrengthData = checkPasswordStrength(email, newPassword);
+            setPasswordStrengthData(newPasswordStrengthData);
         }
         else {
-            setPasswordToShort(checkPasswordToShort(password, 8));
-            setPasswordNeedsSpecialCharacter(checkPasswordContainsSpecialCharacter(password))
-            setPasswordNeedCapital(checkPasswordHasCapital(password))
-            setPasswordNeedLowerCase(checkPasswordHasLowercase(password))
-            setPasswordNeedsNumber(checkPasswordHasNumber(password))
+            setPasswordToShort(checkPasswordToShort(newPassword, 8));
+            setPasswordNeedsSpecialCharacter(checkPasswordContainsSpecialCharacter(newPassword))
+            setPasswordNeedCapital(checkPasswordHasCapital(newPassword))
+            setPasswordNeedLowerCase(checkPasswordHasLowercase(newPassword))
+            setPasswordNeedsNumber(checkPasswordHasNumber(newPassword))
         }
-           
-        setPassword(password);
-
+        
         let valid = false;
         if(usePasswordStrengthMeter) {
-            valid = passwordStrengthData.score > 2;
+            valid = newPasswordStrengthData.score > 2;
         }
         else {
             valid = !passwordToShort
@@ -102,6 +102,7 @@ const PasswordInput = (props) => {
         }
 
         setPasswordValid(valid);
+        setPassword(newPassword);
     };
 
     const handleInputKeyPress = (e) => {
@@ -121,6 +122,11 @@ const PasswordInput = (props) => {
         setShowPassword(!showPassword);
     }
 
+    /**
+     * @description
+     * on key down checks if caps lock is active and updates state
+     * @param {Event} e 
+     */
     const handleCapsLockCheck = (e) => {
         let capsLock = e.getModifierState('CapsLock');
         setCapsLockOn(capsLock);

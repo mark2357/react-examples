@@ -13,7 +13,11 @@ import {
     Label,
     FormGroup,
     InputGroupAddon,
-    Tooltip
+    Tooltip,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from 'reactstrap';
 
 import getLoggedInUser from '../helpers/userAccountHelpers/getLoggedInUser';
@@ -33,6 +37,8 @@ const ChangePasswordPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showWarnings, setShowWarnings] = useState(false);
     const [capsLockOn, setCapsLockOn] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    
 
     // redirects login page if there not logged in
     if(getLoggedInUser() === null) {
@@ -41,6 +47,7 @@ const ChangePasswordPage = () => {
             to='/login-example/login'/>
         )
     }
+
     const email = getLoggedInUser();
     
     /**
@@ -54,13 +61,7 @@ const ChangePasswordPage = () => {
     }
 
 
-    /**
-     * @description
-     * @returns {boolean} returns true when the repeat matches the password
-     */
-    const passwordAndRepeatMatch = () => {
-        return (password === repeatPassword) && repeatPassword !== '';
-    };
+    const passwordAndRepeatMatch = password === repeatPassword && repeatPassword !== '';
 
     /**
      * @description
@@ -78,13 +79,13 @@ const ChangePasswordPage = () => {
      * handles changing password of user
      */
     const handleChangePassword = () => {
-        if(!passwordValid || !passwordAndRepeatMatch()) {
+        if(!passwordValid || !passwordAndRepeatMatch) {
             setShowWarnings(true);
             return;
         }
         saveUserAccount(email, password, true);
-        // save new user account the forward user onto logged in page page
-        history.push('/login-example/logged-in');
+        // save new user account shows modal to let the user know there password has changed
+        setShowConfirmationModal(true);
     }
 
 
@@ -100,9 +101,32 @@ const ChangePasswordPage = () => {
         }
     }
 
+    /**
+     * @description
+     * redirects the user to the logged in page
+     */
+    const handleModalClose = () => {
+        setShowConfirmationModal(false);
+        history.push('/login-example/logged-in');
+    }
+
 
     return (
         <div className='change-password-page mt-5'>
+            <Modal
+                className='custom-modal password Changed Modal'
+                isOpen={showConfirmationModal}
+            >
+                <ModalHeader >Password Changed</ModalHeader>
+                <ModalBody className='text-center'>
+                    <div className='mt-1'>
+                        Your Password was successfully changed
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={handleModalClose}>Close</Button>
+                </ModalFooter>
+            </Modal>
             <Row>
                 <Col
                     xs={{ size: 10, offset: 1 }}
@@ -129,8 +153,8 @@ const ChangePasswordPage = () => {
                                 <Label for="repeat-password">Repeat Password</Label>
                                 <InputGroup>
                                     <Input
-                                        valid={passwordAndRepeatMatch()}
-                                        invalid={!passwordAndRepeatMatch()}
+                                        valid={passwordAndRepeatMatch}
+                                        invalid={!passwordAndRepeatMatch}
                                         type={showPassword ? 'text' : 'password'}
                                         name="repeat-password"
                                         id="repeat-password"
@@ -164,7 +188,7 @@ const ChangePasswordPage = () => {
                                     <ValidInvalidText
                                         className='small-text'
                                         text='repeat password must match password'
-                                        valid={passwordAndRepeatMatch()}
+                                        valid={passwordAndRepeatMatch}
                                     />
                                 }
                             </FormGroup>
