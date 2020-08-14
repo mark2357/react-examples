@@ -114,7 +114,7 @@ const ChangePasswordPage = () => {
     return (
         <div className='change-password-page mt-5'>
             <Modal
-                className='custom-modal password Changed Modal'
+                className='custom-modal password-changed-modal'
                 isOpen={showConfirmationModal}
             >
                 <ModalHeader >Password Changed</ModalHeader>

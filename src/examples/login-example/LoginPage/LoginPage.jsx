@@ -96,7 +96,7 @@ const LoginPage = (props) => {
                                     setEmail = {setEmail}
                                     password = {password}
                                     setPassword = {setPassword}
-                                    userPasswordStrengthMeter={true}
+                                    usePasswordStrengthMeter={true}
                                 />
                             }
                         </Card>

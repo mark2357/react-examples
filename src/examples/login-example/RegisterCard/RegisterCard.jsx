@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import qs from 'query-string'
 import { Link, useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import zxcvbn from 'zxcvbn';
 import {
     Form,
     FormGroup,
@@ -11,19 +9,26 @@ import {
     Input,
     Card,
     Button,
-    InputGroup,
-    InputGroupAddon,
     Modal,
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Progress,
-    Tooltip
 } from 'reactstrap';
+
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import isUserAccount from '../helpers/userAccountHelpers/isUserAccount';
 import saveUserAccount from '../helpers/userAccountHelpers/saveUserAccount';
 import setLoggedInUser from '../helpers/userAccountHelpers/setLoggedInUser';
+import PasswordInput from '../PasswordInput/PasswordInput';
+import {
+
+    checkPasswordStrength,
+    checkPasswordToShort,
+    checkPasswordContainsSpecialCharacter,
+    checkPasswordHasCapital,
+    checkPasswordHasLowercase,
+    checkPasswordHasNumber,
+} from '../helpers/passwordCheckHelpers';
 
 /**
  * @description
@@ -37,86 +42,11 @@ const RegisterCard = (props) => {
         setEmail,
         password,
         setPassword,
-        userPasswordStrengthMeter,
+        usePasswordStrengthMeter,
     } = props;
 
 
     const history = useHistory();
-
-    // #region input validation check functions
-
-    /**
-     * @description
-     * determines the password strength using the zxcvbn library
-     * @param { string } email
-     * @param { string } password
-     * @returns {{ score: number, warning: string, suggestions: [string] }}
-     */
-    const checkPasswordStrength = (email, password) => {
-        let passwordData = zxcvbn(password, [email])
-        let passwordStrengthData = {
-            score: passwordData.score,
-            warning: passwordData.feedback.warning,
-            suggestions: passwordData.feedback.suggestions,
-        }
-        return passwordStrengthData;
-    }
-
-    /**
-     * @description
-     * determines whether password is to short
-     * @param {string} password 
-     * @returns {boolean}
-     */
-    const checkPasswordToShort = (password) => {
-
-        let minLength = 8;
-
-        if (password.length < minLength) return true;
-        return false;
-    }
-
-    /**
-     * @description
-     * determines whether password needs a special character
-     * @param {string} password
-     * @returns {boolean}
-     */
-    const checkPasswordNeedsSpecialCharacter = (password) => {
-        // uses regex to determine if password contains various characters
-        let specialFormat = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
-        return !specialFormat.test(password);
-    }
-
-    /**
-     * @description
-     * determines whether password needs a capital character
-     * @param {string} password
-     * @returns {boolean}
-     */
-    const checkPasswordNeedsCapital = (password) => {
-        // uses regex to determine if password contains various characters
-        let capitalFormat = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/;
-        return !capitalFormat.test(password);
-    }
-
-    /**
-     * @description
-     * determines whether password needs a lowercase character
-     * @param {string} password
-     * @returns {boolean}
-     */
-    const checkPasswordNeedsLowercase = (password) => {
-        // uses regex to determine if password contains various characters
-        let lowercaseFormat = /[abcdefghijklmnopqrstuvwxyz]/;
-        return !lowercaseFormat.test(password);
-    }
-
-    const checkPasswordNeedsNumber = (password) => {
-        // uses regex to determine if password contains various characters
-        let numbersFormat = /[1234567890]/;
-        return !numbersFormat.test(password);
-    }
 
     /**
      * @description
@@ -136,31 +66,55 @@ const RegisterCard = (props) => {
         return valid;
     }
 
-    //#endregion
+    //TODO: find better way to prevent code duplication as this function is very similar to one ine PasswordInput component
+    /**
+     * @description
+     * returns true when the current password is valid
+     * only used during the initial render as the password input handles future checking of password validity
+     * @param {string} email 
+     * @param {string} password 
+     */
+    const checkPasswordIsValid = (email, password) => {
 
-    // used when both userPasswordStrengthMeter is true and false
+        if (usePasswordStrengthMeter) {
+            let passwordStrengthData = null;
+            passwordStrengthData = checkPasswordStrength(email, password);
+            if(passwordStrengthData.score > 2) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            let passwordToShort = checkPasswordToShort(password, 8);
+            let passwordNeedCapital = checkPasswordContainsSpecialCharacter(password);
+            let passwordNeedLowerCase = checkPasswordHasCapital(password);
+            let passwordNeedsSpecialCharacter = checkPasswordHasLowercase(password);
+            let passwordNeedsNumber = checkPasswordHasNumber(password);
+            
+            return !passwordToShort
+                && !passwordNeedCapital
+                && !passwordNeedLowerCase
+                && !passwordNeedsSpecialCharacter
+                && !passwordNeedsNumber;
+        }
+    };
+
+
+    // used when both usePasswordStrengthMeter is true and false
     const [emailValid, setEmailValid] = useState(checkEmailValid(email));
     const [showPassword, setShowPassword] = useState(false);
     const [showAccountAlreadyExistsModal, setShowAccountAlreadyExistsModal] = useState(false);
 
-    // used when both userPasswordStrengthMeter is false
-    const [passwordToShort, setPasswordToShort] = useState(checkPasswordToShort(password));
-    const [passwordNeedCapital, setPasswordNeedCapital] = useState(checkPasswordNeedsCapital(password));
-    const [passwordNeedLowerCase, setPasswordNeedLowerCase] = useState(checkPasswordNeedsLowercase(password));
-    const [passwordNeedsSpecialCharacter, setPasswordNeedsSpecialCharacter] = useState(checkPasswordNeedsSpecialCharacter(password));
-    const [passwordNeedsNumber, setPasswordNeedsNumber] = useState(checkPasswordNeedsNumber(password));
-    const [capsLockOn, setCapsLockOn] = useState(false);
+    const [passwordValid, setPasswordValid] = useState(checkPasswordIsValid(email, password));
     const [showWarnings, setShowWarnings] = useState(false);
 
-    // used when both userPasswordStrengthMeter is true
-    const [passwordStrengthData, setPasswordStrengthData] = useState(checkPasswordStrength(email, password));
-
-    //#region input and button handler functions
 
     const handleRegisterClick = () => {
 
 
-        if(!emailValid || !passwordValid()) {
+        if(!emailValid || !passwordValid) {
             setShowWarnings(true);
             return;
         }
@@ -182,7 +136,7 @@ const RegisterCard = (props) => {
     const handleInputKeyPress = (e) => {
         // char code for enter is 13
         // only tries to register user if both email and password are valid
-        if (e.charCode === 13 && emailValid && passwordValid()) {
+        if (e.charCode === 13 && emailValid && passwordValid) {
             handleRegisterClick();
         }
     }
@@ -199,83 +153,8 @@ const RegisterCard = (props) => {
         setEmail(email);
     };
 
-    /**
-     * @description
-     * handles validating the password input on value change
-     * @param {Element} e 
-     */
-    const handleValidatePassword = (e) => {
-        let password = e.target.value;
-
-        if (userPasswordStrengthMeter) {
-            setPasswordStrengthData(checkPasswordStrength(email, password));
-        }
-        else {
-            setPasswordToShort(checkPasswordToShort(password));
-            setPasswordNeedsSpecialCharacter(checkPasswordNeedsSpecialCharacter(password))
-            setPasswordNeedCapital(checkPasswordNeedsCapital(password))
-            setPasswordNeedLowerCase(checkPasswordNeedsLowercase(password))
-            setPasswordNeedsNumber(checkPasswordNeedsNumber(password))
-        }
-           
-        setPassword(password);
-    };
-
-    /**
-     * @description
-     * handles the password toggle button
-     * shows or hides the characters in the password field
-     */
-    const handlePasswordToggle = () => {
-        setShowPassword(!showPassword);
-    }
-
     const handleHideAccountAlreadyExistsModal = () => {
         setShowAccountAlreadyExistsModal(false);
-    }
-
-    const handleCapsLockCheck = (e) => {
-        let capsLock = e.getModifierState('CapsLock');
-        setCapsLockOn(capsLock);
-    }
-
-    //#endregion
-
-    /**
-     * @description
-     * returns true when the password is valid
-     * @returns {boolean}
-     */
-    const passwordValid = () => {
-        if(userPasswordStrengthMeter) {
-            return passwordStrengthData.score > 2;
-        }
-        else {
-            return !passwordToShort
-                && !passwordNeedCapital
-                && !passwordNeedLowerCase
-                && !passwordNeedsSpecialCharacter
-                && !passwordNeedsNumber;
-        }
-    }
-
-    /**
-     * @description
-     * returns the color the password strength meter should be
-     * @returns {string}
-     */
-    const getPasswordStrengthColor = () => {
-        switch (passwordStrengthData.score) {
-            case 0:
-            case 1:
-                case 2:
-                return 'danger';
-            case 3:
-            case 4:
-                return 'success';
-            default:
-                return 'danger';
-        }
     }
 
     return (
@@ -330,107 +209,18 @@ const RegisterCard = (props) => {
                     />
                 }
                 </FormGroup>
-                <FormGroup>
-                    <Label for="password">Password</Label>
-                    <InputGroup>
-                        <Input
-                            tabIndex={2}
-                            valid={passwordValid()}
-                            invalid={!passwordValid()}
-                            type={showPassword ? 'text' : 'password'}
-                            name="password"
-                            id="password"
-                            placeholder="password"
-                            onChange={handleValidatePassword}
-                            value={password}
-                            onKeyPress={handleInputKeyPress}
-                            onKeyDown={handleCapsLockCheck}
-                            onBlur={() => {setCapsLockOn(false); }}
-                        />
-                        <Tooltip
-                            className='register-card-warning-popover'
-                            placement="left"
-                            isOpen={capsLockOn}
-                            target='password'
-                            fade={false}
-                        >
-                            WARNING Caps Lock is on
-                        </Tooltip>
-                        
-                        <InputGroupAddon addonType="append">
-                            <Button tabIndex={4} className='password-visible-button' onClick={handlePasswordToggle}>
-                                <FontAwesomeIcon icon={showPassword ? 'eye' : 'eye-slash'} />
-                            </Button>
-                        </InputGroupAddon>
-                    </InputGroup>
-                    { showWarnings &&
-                        <ValidInvalidText
-                        className='small-text'
-                        text='Password strength meter must be green'
-                        valid={passwordValid()}
-                        />
-                    }
-                    { !userPasswordStrengthMeter &&
-                    <>
-                        <div>
-                            <span className='small-text'>Password Must Contain:</span>
-                        </div>
-                        <ValidInvalidText
-                            className='small-text'
-                            text='at least 8 characters'
-                            valid={!passwordToShort}
-                        />
-                        <ValidInvalidText
-                            className='small-text'
-                            text='a capital letter'
-                            valid={!passwordNeedCapital}
-                        />
-                        <ValidInvalidText
-                            className='small-text'
-                            text='a lowercase letter'
-                            valid={!passwordNeedLowerCase}
-                        />
-                        <ValidInvalidText
-                            className='small-text'
-                            text='a special character'
-                            valid={!passwordNeedsSpecialCharacter}
-                        />
-                        <ValidInvalidText
-                            className='small-text'
-                            text='a number'
-                            valid={!passwordNeedsNumber}
-                        />
-                    </>
-                    }
-                </FormGroup>
-                { userPasswordStrengthMeter &&
-                    <>
-                    <div className='small-text mb-2'>
-                        Password Strength:
-                    </div>
-                    <Progress multi>
-                        <Progress bar color={getPasswordStrengthColor()} value={(passwordStrengthData.score + 1) * 20} />
-                    </Progress>
-                    <div className='small-text mb-2 mt-2'>
-                        {/* displays each warning string in the array */}
-                        { passwordStrengthData.warning !== '' &&
-                            <>
-                                <span>
-                                {passwordStrengthData.warning}
-                                </span>
-                                <br />
-                            </>
-                        }
-                        {
-                            passwordStrengthData.suggestions.map(suggestion => (
-                            <div key={suggestion}>
-                                {suggestion}
-                            </div>
-                            ))
-                        }
-                    </div>
-                    </>
-                }
+                <PasswordInput
+                    email={email}
+                    password={password}
+                    setPassword={setPassword}
+                    passwordValid={passwordValid}
+                    setPasswordValid={setPasswordValid}
+                    showPassword={showPassword}
+                    setShowPassword={setShowPassword}
+                    usePasswordStrengthMeter={usePasswordStrengthMeter}
+                    showWarnings={showWarnings}
+                    onEnterPress={handleInputKeyPress}
+                />
                 <Button tabIndex={3} onClick={handleRegisterClick} >Create Account</Button>
             </Form>
         </Card>
@@ -445,11 +235,11 @@ RegisterCard.propTypes = {
 
     // weather the password field should use a password strength meter to determine if password is valid or 
     // if character requirements should be used e.g. at least 10 characters and one number
-    userPasswordStrengthMeter: PropTypes.bool.isRequired,
+    usePasswordStrengthMeter: PropTypes.bool,
 };
 
 RegisterCard.defaultProps = {
-    userPasswordStrengthMeter: false
+    usePasswordStrengthMeter: false
 };
 
 

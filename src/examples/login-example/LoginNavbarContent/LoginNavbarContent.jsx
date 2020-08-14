@@ -45,6 +45,7 @@ const LoginNavbarContent = () => {
      * logs out user deletes there account and redirects them to the login page
      */
     const handleDeleteUserAccount = () => {
+        setShowConfirmDeleteUserAccountModal(false);
         setLoggedInUser(null);
         deleteUserAccount(loggedInUser);
 		history.push('/login-example/login');

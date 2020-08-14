@@ -38,7 +38,7 @@ const HomePage = () => {
                         </CardTitle>
                         <div>
                             Contains functionality for logging in, registering and resetting your password
-                            (resetting your password is to fully functional as you don&apos;t receive an email)
+                            (resetting your password is not fully functional as you don&apos;t receive an email)
                         </div>
                         <div>
                             Please note that as this is a front end example this website stores registration data in local storage.

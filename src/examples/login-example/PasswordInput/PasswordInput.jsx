@@ -14,7 +14,6 @@ import {
 
 import ValidInvalidText from '../../../global/components/ValidInvalidText/ValidInvalidText';
 import {
-
     checkPasswordStrength,
     checkPasswordToShort,
     checkPasswordContainsSpecialCharacter,
@@ -39,7 +38,7 @@ const PasswordInput = (props) => {
 
         showWarnings,
         usePasswordStrengthMeter,
-        // showPassword and setShowPassword are renamed as if there not provided in via props an internal state value is useed
+        // showPassword and setShowPassword are renamed as if there not provided in via props an internal state value is used
         showPassword: showPasswordProps,
         setShowPassword: setShowPasswordProps,
 
@@ -77,16 +76,29 @@ const PasswordInput = (props) => {
         let newPassword = e.target.value;
 
         let newPasswordStrengthData = null; 
+        let newPasswordToShort = null;
+        let newPasswordNeedCapital = null;
+        let newPasswordNeedLowerCase = null;
+        let newPasswordNeedsSpecialCharacter = null;
+        let newPasswordNeedsNumber = null;
+
+        
+        
         if (usePasswordStrengthMeter) {
             newPasswordStrengthData = checkPasswordStrength(email, newPassword);
             setPasswordStrengthData(newPasswordStrengthData);
         }
         else {
-            setPasswordToShort(checkPasswordToShort(newPassword, 8));
-            setPasswordNeedsSpecialCharacter(checkPasswordContainsSpecialCharacter(newPassword))
-            setPasswordNeedCapital(checkPasswordHasCapital(newPassword))
-            setPasswordNeedLowerCase(checkPasswordHasLowercase(newPassword))
-            setPasswordNeedsNumber(checkPasswordHasNumber(newPassword))
+            newPasswordToShort = checkPasswordToShort(newPassword, 8);
+            newPasswordNeedCapital = checkPasswordContainsSpecialCharacter(newPassword);
+            newPasswordNeedLowerCase = checkPasswordHasCapital(newPassword);
+            newPasswordNeedsSpecialCharacter = checkPasswordHasLowercase(newPassword);
+            newPasswordNeedsNumber = checkPasswordHasNumber(newPassword);
+            setPasswordToShort(newPasswordToShort);
+            setPasswordNeedsSpecialCharacter(newPasswordNeedCapital);
+            setPasswordNeedCapital(newPasswordNeedLowerCase);
+            setPasswordNeedLowerCase(newPasswordNeedsSpecialCharacter);
+            setPasswordNeedsNumber(newPasswordNeedsNumber);
         }
         
         let valid = false;
@@ -94,11 +106,11 @@ const PasswordInput = (props) => {
             valid = newPasswordStrengthData.score > 2;
         }
         else {
-            valid = !passwordToShort
-                && !passwordNeedCapital
-                && !passwordNeedLowerCase
-                && !passwordNeedsSpecialCharacter
-                && !passwordNeedsNumber;
+            valid = !newPasswordToShort
+                 && !newPasswordNeedCapital
+                 && !newPasswordNeedLowerCase
+                 && !newPasswordNeedsSpecialCharacter
+                 && !newPasswordNeedsNumber;
         }
 
         setPasswordValid(valid);

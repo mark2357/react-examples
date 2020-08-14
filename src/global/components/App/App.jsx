@@ -36,7 +36,7 @@ const App = () => {
 					<DropdownItem onClick={() => {history.push('/'); }}>
 							Home
 					</DropdownItem>
-					<DropdownItem onClick={() => {history.push('/login-example'); }}>
+					<DropdownItem onClick={() => {history.push('/login-example/register'); }}>
 						Login Example
 					</DropdownItem>
 				</DropdownMenu>
