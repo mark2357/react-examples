@@ -1,0 +1,9 @@
+.products-page {
+    .card-container {
+    
+        // solution found at https://stackoverflow.com/questions/36487389/bootstrap-4-card-deck-table-cell-columns-responsive-based-on-viewport
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+        grid-gap: 1em;
+    }
+}

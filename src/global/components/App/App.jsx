@@ -15,6 +15,7 @@ import LoggedInPage from '../../../examples/login-example/LoggedInPage/LoggedInP
 import ExampleWebsiteWarningModal from '../ExampleWebsiteWarningModal/ExampleWebsiteWarningModal';
 import LoginNavbarContent from '../../../examples/login-example/LoginNavbarContent/LoginNavbarContent';
 import ChangePasswordPage from '../../../examples/login-example/ChangePasswordPage/ChangePasswordPage';
+import ProductsPage from '../../../examples/store-example/ProductsPage/ProductsPage';
 
 const App = () => {
 
@@ -51,6 +52,9 @@ const App = () => {
 			{/* switch for main page content */}
 			<Switch>
 				<Route path='/' exact component={HomePage}/>
+
+
+				{/* login example routes */}
 				<Route path='/login-example' exact render={() => <Redirect to='/login-example/login'/>}/>
 				<Route path='/login-example/login' exact render={
 					() => <LoginPage loginActiveTab={true}/>
@@ -61,6 +65,11 @@ const App = () => {
 				<Route path='/login-example/forgot-password' component={ForgotPasswordPage}/>
 				<Route path='/login-example/logged-in' component={LoggedInPage}/>
 				<Route path='/login-example/change-password' exact component={ChangePasswordPage}/>
+
+
+				{/* store example routes */}
+				<Route path='/store-example/products-page' exact component={ProductsPage}/>
+
 			</Switch>
 		</div>
 	);
